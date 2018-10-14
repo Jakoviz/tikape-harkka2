@@ -13,15 +13,11 @@ public class Database {
         this.address = address;
     }
 
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(this.address);
-    }
-
     public void setDebugMode(boolean d) {
         debug = d;
     }
 
-    public <T> List<T> queryAndCollect(String query, Collector<T> col, Object... params) throws SQLException {
+    public <T> List<T> queryAndCollect(String query, Collector<T> col, Object... params) throws SQLException, Exception {
         if (debug) {
             System.out.println("---");
             System.out.println("Executing: " + query);
@@ -55,7 +51,7 @@ public class Database {
         return rows;
     }
 
-    public int update(String updateQuery, Object... params) throws SQLException {
+    public int update(String updateQuery, Object... params) throws SQLException, Exception {
         Connection connection = getConnection();
         PreparedStatement stmt = connection.prepareStatement(updateQuery);
 
@@ -87,4 +83,11 @@ public class Database {
 
         System.out.println();
     }
+	public Connection getConnection() throws Exception {
+		String dbUrl = System.getenv("JDBC_DATABASE_URL");
+		if (dbUrl != null && dbUrl.length() > 0) {
+			return DriverManager.getConnection(dbUrl);
+		}
+        return DriverManager.getConnection(this.address);
+	}
 }

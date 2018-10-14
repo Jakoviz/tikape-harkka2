@@ -23,17 +23,17 @@ public class KysymysDao {
     public Kysymys findOne(Integer key) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    public List<Kysymys> findAll() throws SQLException {
+    public List<Kysymys> findAll() throws SQLException, Exception {
         List<Kysymys> tasks = new ArrayList<>();
-        try (Connection conn = database.getConnection();
-            ResultSet result = conn.prepareStatement("SELECT * FROM Tehtava").executeQuery()) {
+        try (Connection conn = database.getConnection()) {
+            ResultSet result = conn.prepareStatement("SELECT * FROM Tehtava").executeQuery();
             while (result.next()) {
                 tasks.add(new Kysymys(result.getString("name")));
             }
         }
         return tasks;
     }
-    public Kysymys saveOrUpdate(Kysymys object) throws SQLException {
+    public Kysymys saveOrUpdate(Kysymys object) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
             PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO Tehtava (nimi) VALUES (?)");
