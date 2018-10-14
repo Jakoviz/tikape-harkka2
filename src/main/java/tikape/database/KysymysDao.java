@@ -43,9 +43,8 @@ public class KysymysDao {
 			PreparedStatement stmt = conn.prepareStatement(
 				"SELECT * FROM Kurssi WHERE nimi = ?");
 			stmt.setString(1, kysymys.getKurssi().getNimi());
-			ResultSet kurssitRs = stmt.executeQuery();
-			kurssitRs.next();
-			if (kurssitRs == null) {
+			ResultSet olemassaolevaRs = stmt.executeQuery();
+			if (!olemassaolevaRs.next()) {
 				stmt = conn.prepareStatement(
 					"INSERT INTO Kurssi (nimi) VALUES (?)");
 				stmt.setString(1, kysymys.getKurssi().getNimi());
@@ -55,7 +54,9 @@ public class KysymysDao {
 				"SELECT id FROM Kurssi WHERE nimi = ?");
 			stmt.setString(1, kysymys.getKurssi().getNimi());
 			ResultSet kurssiRs = stmt.executeQuery();
-			kurssiRs.next();
+			if (!kurssiRs.next()) {
+				return null;
+			}
 			String kurssiId = kurssiRs.getString("id");
 			
             stmt = conn.prepareStatement(
