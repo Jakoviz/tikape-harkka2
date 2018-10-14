@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import spark.ModelAndView;
+import spark.Request;
+import spark.Response;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.database.Database;
@@ -32,6 +34,13 @@ public class Kysymyspankki {
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
+        Spark.get("/kysymykset/:id", (Request req, Response res) -> {
+            HashMap map = new HashMap<>();
+			int id = Integer.parseInt(req.params(":id"));
+            map.put("kysymykset", kysymysDao.findAll());
+            return new ModelAndView(map, "kysymykset");
+        }, new ThymeleafTemplateEngine());
+
         Spark.post("/kysymykset", (req, res) -> {
             String kysymysteksti = req.queryParams("kysymysteksti");
             String aihe = req.queryParams("aihe");
@@ -40,14 +49,14 @@ public class Kysymyspankki {
 				new Kurssi(kurssinimi));
 		    kysymysDao.saveOrUpdate(kysymys);
 		    res.redirect("/kysymykset");
-		    return "";
+		    return "OK";
         });
 
         Spark.post("/kysymykset/:id/delete)", (req, res) -> {
 			String id = req.params(":id");
 		    kysymysDao.delete(Integer.parseInt(id));
 		    res.redirect("/kysymykset");
-		    return "";
+		    return "OK";
         });
     }
 
