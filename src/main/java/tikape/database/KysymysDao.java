@@ -24,7 +24,7 @@ public class KysymysDao {
     public Kysymys findOne(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"Select * FROM Kysymys WHERE id = ?");
+				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE id = ?");
 			stmt.setInt(1, kysymys.getId());
 			ResultSet kysymysRs = stmt.executeQuery();
 			if (!kysymysRs.next()) {
@@ -33,7 +33,7 @@ public class KysymysDao {
 			return new Kysymys(kysymysRs.getInt("id"), 
 				kysymysRs.getString("kysymysteksti"), 
 				kysymysRs.getString("aihe"), 
-				new Kurssi(null, kysymysRs.getInt("kurssi_id")));
+				new Kurssi(kysymysRs.getString("kurssinimi"), kysymysRs.getInt("kurssi_id")));
 		}
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
