@@ -51,7 +51,7 @@ public class KysymysDao {
 					new Kurssi(kysymyksetRs.getString("kurssinimi"), 
 						kysymyksetRs.getInt("kurssi_id"))));
             }
-        }
+        } //
         return kysymykset;
     }
     public Kysymys saveOrUpdate(Kysymys kysymys) throws SQLException, Exception {
