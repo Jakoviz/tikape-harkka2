@@ -24,14 +24,17 @@ public class KysymysDao {
         throw new UnsupportedOperationException("Not supported yet.");
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
-        List<Kysymys> tasks = new ArrayList<>();
+        List<Kysymys> kysymykset = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-            ResultSet result = conn.prepareStatement("SELECT * FROM Tehtava").executeQuery();
+            ResultSet result = conn.prepareStatement(
+		"SELECT a.kysymysteksti, a.aihe, b.nimi as kurssi FROM Kysymys a"
+		    + "JOIN Kurssi b on a.kurssi_id = b.id").executeQuery();
             while (result.next()) {
-                tasks.add(new Kysymys(result.getString("name")));
+                kysymykset.add(new Kysymys(result.getString("kysymysteksti"), 
+		    result.getString("aihe"), result.getString("kurssi")));
             }
         }
-        return tasks;
+        return kysymykset;
     }
     public Kysymys saveOrUpdate(Kysymys object) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {

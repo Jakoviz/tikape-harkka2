@@ -2,26 +2,62 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
     <head>
-        <title th:text="${tervehdys}">Otsikko</title>
+        <title>Kysymyspankki</title>
         <meta charset="utf-8" /> 
     </head>
 
     <body>
-        <h1></h1>
+        <h2>Kysymykset</h2>
 
         <ul>
-            <li th:each="opiskelija: ${opiskelijat}">
-                <span th:text="${opiskelija.id}">1</span> <span th:text="${opiskelija.nimi}">Essi esimerkki</span>
-                <form method="POST" th:action="@{~/opiskelijat/{opiskelijaId}/delete(opiskelijaId=${opiskelija.id})}"><input type="submit" value="Poista"/></form>
+            <li th:each="kysymys: ${kysymykset}">
+		<h3 th:text="${kysymys.kurssi"}>kurssi</h3>
+		<h4 th:text="${kysymys.aihe}">aihe</h4>
+                <span th:text="${kysymys.kysymysteksti}">kysymysteksti</span> 
+		<form method="POST" th:action="@{~/kysymykset/{kysymysId}/delete(kysymysId=${kysymys.id})}"><input type="submit" value="Poista"/></form>
             </li>
         </ul>
 
-        <h2></h2>
 
         <form method="POST" action="/opiskelijat">
             Nimi:<br/>
             <input type="text" name="nimi"/>
             <input type="submit" value="Lisää!"/>            
         </form>
+	
+	  <h2>Luo uusi kysymys</h2>
+	  <form>
+	    <table>
+	      <tbody><tr>
+		<td>
+		  Kurssi:
+		</td>
+		<td>
+		    <input type="text" name="kurssi">
+		</td>
+	      </tr>
+	      <tr>
+		<td>
+		  Aihe:
+		</td>
+		<td>
+		    <input type="text" name="aihe">
+		</td>
+	      </tr>
+	      <tr>
+		<td>
+		  Kysymysteksti:
+		</td>
+		<td>
+		    <input type="text" name="kysymysteksti">
+		</td>
+	      </tr>
+	    </tbody></table>
+
+	    <input type="submit" value="Luo">
+	  </form>
+	<object id="__symantecPKIClientMessenger" data-supports-flavor-configuration="true" data-extension-version="0.5.0.109" style="display: none;"></object><span id="__symantecPKIClientDetector" style="display: none;">__PRESENT</span></body></html>
     </body>
+
+
 </html>

@@ -2,9 +2,13 @@ package tikape;
 
 public class Kysymys {
     private String kysymysteksti;
+    private String aihe;
+    private String kurssi;
 
-    public Kysymys(String nimi) {
-        this.kysymysteksti = nimi;
+    public Kysymys(String kysymysteksti, String aihe, String kurssi) {
+        this.kysymysteksti = kysymysteksti;
+		this.aihe = aihe;
+		this.kurssi = kurssi;
     }
 
     public String getNimi() {

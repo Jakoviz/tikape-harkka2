@@ -20,8 +20,6 @@ public class Kysymyspankki {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
         
-        String hei_maailma = "Hei maailma!";
-        
         List<Kysymys> kysymykset = new ArrayList<>();
 
         Database database = new Database("org.sqlite.JDBC", "jdbc:sqlite:tasks.db");
@@ -30,14 +28,15 @@ public class Kysymyspankki {
         
         Spark.get("/", (req, res) -> {
             HashMap map = new HashMap<>();
-	    map.put("tervehdys", hei_maailma);
-//            map.put("tehtavat", kysymysDao.findAll());
+            map.put("kysymykset", kysymysDao.findAll());
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/", (req, res) -> {
-            String nimi = req.queryParams("nimi");
-            Kysymys tehtava = new Kysymys(nimi);
+            String kysymysteksti = req.queryParams("kysymysteksti");
+            String kurssi = req.queryParams("kurssi");
+            String aihe = req.queryParams("aihe");
+            Kysymys tehtava = new Kysymys(kysymysteksti, aihe, kurssi);
             kysymysDao.saveOrUpdate(tehtava);
             res.redirect("/");
             return "";
