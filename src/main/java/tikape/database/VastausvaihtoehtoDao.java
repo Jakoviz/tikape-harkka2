@@ -68,7 +68,7 @@ public class VastausvaihtoehtoDao {
 		stmt.setString(2, vastausvaihtoehto.getVastaus());
 		ResultSet kasiteltyRs = stmt.executeQuery();
 		if (!kasiteltyRs.next()) {
-			throw new Exception("Kysymyksen findOne:ssa virhe");	
+			throw new Exception("Vastausvaihtoehdon saveOrUpdate:ssa virhe");	
 		}
 		return new Vastausvaihtoehto(kasiteltyRs.getInt("id"), 
 		    kasiteltyRs.getInt("kysymys_id"),
