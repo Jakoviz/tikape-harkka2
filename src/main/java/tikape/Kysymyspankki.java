@@ -44,7 +44,7 @@ public class Kysymyspankki {
         });
 
         Spark.post("/kysymykset/delete(kysymysId=:kysymysId)", (req, res) -> {
-			String id = req.params("id");
+			String id = req.params("kysymysId");
 		    kysymysDao.delete(Integer.parseInt(id));
 		    res.redirect("/");
 		    return "";
