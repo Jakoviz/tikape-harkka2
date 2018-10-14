@@ -42,15 +42,15 @@ public class KysymysDao {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
 				"SELECT a.id, a.kysymysteksti, a.aihe, b.nimi as kurssinimi, a.kurssi_id FROM Kysymys as a"
-					+ " JOIN Kurssi as b on a.kurssi_id = b.id"
-					+ " JOIN Vastausvaihtoehto as c on a.id = c.kysymys_id");
+					+ " JOIN Kurssi as b on a.kurssi_id = b.id");
 			ResultSet kysymyksetRs = stmt.executeQuery();
             while (kysymyksetRs.next()) {
-                kysymykset.add(new Kysymys(kysymyksetRs.getInt("id"), 
-				kysymyksetRs.getString("kysymysteksti"), 
-				kysymyksetRs.getString("aihe"), 
+                kysymykset.add(new Kysymys(
+					kysymyksetRs.getInt("id"), 
+					kysymyksetRs.getString("kysymysteksti"), 
+					kysymyksetRs.getString("aihe"), 
 					new Kurssi(kysymyksetRs.getString("kurssinimi"), 
-					kysymyksetRs.getInt("kurssi_id"))));
+						kysymyksetRs.getInt("kurssi_id"))));
             }
         }
         return kysymykset;
