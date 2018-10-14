@@ -9,20 +9,28 @@
     <body>
         <h2>Kysymykset</h2>
 
-	<form method="GET" action="/kysymykset">
-	    <ul>
-		<li th:each="kysymys: ${kysymykset}">
-		    <h3 th:text="${kysymys.kurssi.getNimi()}">kurssi</h3>
-		    <h4 th:text="${kysymys.aihe}">aihe</h4>
-		    <span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
-		</li>
-	    </ul>
-	</form>
-		<li th:each="kysymys: ${kysymykset}">
-			<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
-				<input type="submit" value="Poista"/>
-			</form>
-		</li>
+		<table>
+			<tr>
+				<td>
+				<form method="GET" action="/kysymykset">
+	    			<ul>
+						<li th:each="kysymys: ${kysymykset}">
+		    				<h3 th:text="${kysymys.kurssi.getNimi()}">kurssi</h3>
+		    				<h4 th:text="${kysymys.aihe}">aihe</h4>
+		    				<span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
+						</li>
+	    			</ul>
+				</form>
+				</td>
+				<td>
+					<li th:each="kysymys: ${kysymykset}">
+						<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
+							<input type="submit" value="Poista"/>
+						</form>
+					</li>
+				</td>
+			</tr>
+		</table>
 		
         <h2>Luo uusi kysymys</h2>
         <form method="POST" action="/kysymykset">
