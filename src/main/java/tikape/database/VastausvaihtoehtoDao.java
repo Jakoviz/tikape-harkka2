@@ -66,11 +66,14 @@ public class VastausvaihtoehtoDao {
 			"SELECT * FROM Vastausvaihtoehto WHERE kysymys_id = ? AND vastausteksti = ?");
 		stmt.setInt(1, vastausvaihtoehto.getKysymys_id());
 		stmt.setString(2, vastausvaihtoehto.getVastaus());
-		olemassaolevaRs = stmt.executeQuery();
-		return new Vastausvaihtoehto(olemassaolevaRs.getInt("id"), 
-		    olemassaolevaRs.getInt("kysymys_id"),
-		    olemassaolevaRs.getString("vastausteksti"), 
-		    olemassaolevaRs.getBoolean("oikein"));
+		ResultSet kasiteltyRs = stmt.executeQuery();
+		if (!kasiteltyRs.next()) {
+			throw new Exception("Kysymyksen findOne:ssa virhe");	
+		}
+		return new Vastausvaihtoehto(kasiteltyRs.getInt("id"), 
+		    kasiteltyRs.getInt("kysymys_id"),
+		    kasiteltyRs.getString("vastausteksti"), 
+		    kasiteltyRs.getBoolean("oikein"));
         }
     }
     public void delete(Integer key) throws SQLException, Exception {
