@@ -27,12 +27,13 @@ public class KysymysDao {
     public List<Kysymys> findAll() throws SQLException, Exception {
         List<Kysymys> kysymykset = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-            ResultSet result = conn.prepareStatement(
-				"SELECT a.kysymysteksti, a.aihe, b.nimi as kurssi FROM Kysymys a"
-				+ "JOIN Kurssi b on a.kurssi_id = b.id").executeQuery();
-            while (result.next()) {
-                kysymykset.add(new Kysymys(result.getString("kysymysteksti"), 
-				result.getString("aihe"), new Kurssi(result.getString("kurssi"))));
+			PreparedStatement stmt = conn.prepareStatement(
+				"SELECT a.kysymysteksti, a.aihe, b.nimi as kurssinimi FROM Kysymys a"
+					+ "JOIN Kurssi b on a.kurssi_id = b.id");
+			ResultSet kysymyksetRs = stmt.executeQuery();
+            while (kysymyksetRs.next()) {
+                kysymykset.add(new Kysymys(kysymyksetRs.getString("kysymysteksti"), 
+				kysymyksetRs.getString("aihe"), new Kurssi(kysymyksetRs.getString("kurssinimi"))));
             }
         }
         return kysymykset;
