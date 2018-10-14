@@ -35,7 +35,7 @@ and open the template in the editor.
 		</ul>
 
 		<h1>Luo uusi vastausvaihtoehto</h1>
-		<form method="POST" action="/kysymykset/{id}/vastausvaihtoehdot(id=${kysymys.id})">
+		<form method="POST" th:action="@{~/kysymykset/{id}/vastausvaihtoehdot(id=${kysymys.id})}">
 			<table>
 			  <tr>
 				<td>
