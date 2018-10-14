@@ -29,7 +29,7 @@ public class Kysymyspankki {
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kysymykset", kysymysDao.findAll());
-            return new ModelAndView(map, "index");
+            return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/kysymykset", (req, res) -> {
