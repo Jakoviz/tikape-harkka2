@@ -15,14 +15,15 @@
 		    <h3 th:text="${kysymys.kurssi.getNimi()}">kurssi</h3>
 		    <h4 th:text="${kysymys.aihe}">aihe</h4>
 		    <span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
-			<br>
-		    <form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
-				<input type="submit" value="Poista"/>
-			</form>
 		</li>
 	    </ul>
 	</form>
-
+		<li th:each="kysymys: ${kysymykset}">
+			<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
+				<input type="submit" value="Poista"/>
+			</form>
+		</li>
+		
         <h2>Luo uusi kysymys</h2>
         <form method="POST" action="/kysymykset">
 	      <table>
