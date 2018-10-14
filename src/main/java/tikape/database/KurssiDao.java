@@ -51,7 +51,7 @@ public class KurssiDao {
 				stmt.executeUpdate();
 			}
 			stmt = conn.prepareStatement(
-				"SELECT id FROM Kurssi WHERE nimi = ?");
+				"SELECT * FROM Kurssi WHERE nimi = ?");
 			stmt.setString(1, kurssi.getNimi());
 			ResultSet kurssiRs = stmt.executeQuery();
 			if (!kurssiRs.next()) {
