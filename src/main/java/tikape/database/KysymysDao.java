@@ -72,8 +72,8 @@ public class KysymysDao {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
 				"DELETE FROM Kysymys WHERE id = ?");
-			stmt.setString(1, key.toString());
-			ResultSet olemassaolevaRs = stmt.executeQuery();
+			stmt.setInt(1, key);
+			stmt.executeUpdate();
 		}
     }
 }

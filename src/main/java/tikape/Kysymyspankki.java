@@ -26,7 +26,7 @@ public class Kysymyspankki {
 
         KysymysDao kysymysDao = new KysymysDao(database);
         
-        Spark.get("/", (req, res) -> {
+        Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kysymykset", kysymysDao.findAll());
             return new ModelAndView(map, "index");
@@ -39,14 +39,14 @@ public class Kysymyspankki {
             Kysymys kysymys = new Kysymys(-1, kysymysteksti, aihe, 
 				new Kurssi(kurssinimi));
 		    kysymysDao.saveOrUpdate(kysymys);
-		    res.redirect("/");
+		    res.redirect("/kysymykset");
 		    return "";
         });
 
         Spark.get("/kysymykset/:id/delete)", (req, res) -> {
 			String id = req.params("id");
 		    kysymysDao.delete(Integer.parseInt(id));
-		    res.redirect("/");
+		    res.redirect("/kysymykset");
 		    return "";
         });
     }
