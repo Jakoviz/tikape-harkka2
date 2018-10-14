@@ -31,7 +31,7 @@ public class Kysymyspankki {
         KysymysDao kysymysDao = new KysymysDao(database);
 		VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
 		KurssiDao kurssiDao = new KurssiDao(database);
-
+		
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kysymykset", kysymysDao.findAll());
