@@ -41,17 +41,18 @@ public class KysymysDao {
     public Kysymys saveOrUpdate(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"SELECT * FROM Kurssi WHERE nimi = (?)");
+				"SELECT * FROM Kurssi WHERE nimi = ?");
 			stmt.setString(1, kysymys.getKurssi().getNimi());
-			ResultSet kurssit = stmt.executeQuery();
-			if (kurssit == null) {
+			ResultSet kurssitRs = stmt.executeQuery();
+			kurssitRs.next();
+			if (kurssitRs == null) {
 				stmt = conn.prepareStatement(
 					"INSERT INTO Kurssi (nimi) VALUES (?)");
 				stmt.setString(1, kysymys.getKurssi().getNimi());
 				stmt.executeUpdate();
 			}
 			stmt = conn.prepareStatement(
-				"SELECT id FROM Kurssi WHERE nimi = (?)");
+				"SELECT id FROM Kurssi WHERE nimi = ?");
 			stmt.setString(1, kysymys.getKurssi().getNimi());
 			ResultSet kurssiRs = stmt.executeQuery();
 			kurssiRs.next();
