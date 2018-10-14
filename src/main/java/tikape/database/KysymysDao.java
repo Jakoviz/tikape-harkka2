@@ -54,6 +54,7 @@ public class KysymysDao {
 				"SELECT id FROM Kurssi WHERE nimi = (?)");
 			stmt.setString(1, kysymys.getKurssi().getNimi());
 			ResultSet kurssiRs = stmt.executeQuery();
+			kurssiRs.next();
 			String kurssiId = kurssiRs.getString("id");
 			
             stmt = conn.prepareStatement(
