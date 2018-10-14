@@ -21,30 +21,36 @@ public class KysymysDao {
     public KysymysDao(Database database) {
         this.database = database;
     }
-    public Kysymys findOne(Integer key) throws SQLException, Exception {
+    public Kysymys findOne(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
 				"Select * FROM Kysymys WHERE id = ?");
-			stmt.setInt(1, key);
+			stmt.setInt(1, kysymys.getId());
 			ResultSet kysymysRs = stmt.executeQuery();
 			if (!kysymysRs.next()) {
-				return null;
+				throw new Exception("Kysymyksen findOne:ssa virhe");	
 			}
-			return new Kysymys(kysymysRs.getInt("id"), kysymysRs.getString("kysymysteksti"), 
-				kysymysRs.getString("aihe"), new Kurssi(kysymysRs.getString("kurssi")));
+			return new Kysymys(kysymysRs.getInt("id"), 
+				kysymysRs.getString("kysymysteksti"), 
+				kysymysRs.getString("aihe"), 
+				new Kurssi(kysymysRs.getString("kurssi"), 
+				kysymysRs.getInt("kurssi_id")));
 		}
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
         List<Kysymys> kysymykset = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"SELECT a.id, a.kysymysteksti, a.aihe, b.nimi as kurssinimi FROM Kysymys as a"
+				"SELECT a.id, a.kysymysteksti, a.aihe, b.nimi as kurssinimi, a.kurssi_id FROM Kysymys as a"
 					+ " JOIN Kurssi as b on a.kurssi_id = b.id"
 					+ " JOIN Vastausvaihtoehto as c on a.id = c.kysymys_id");
 			ResultSet kysymyksetRs = stmt.executeQuery();
             while (kysymyksetRs.next()) {
-                kysymykset.add(new Kysymys(kysymyksetRs.getInt("id"), kysymyksetRs.getString("kysymysteksti"), 
-				kysymyksetRs.getString("aihe"), new Kurssi(kysymyksetRs.getString("kurssinimi"))));
+                kysymykset.add(new Kysymys(kysymyksetRs.getInt("id"), 
+				kysymyksetRs.getString("kysymysteksti"), 
+				kysymyksetRs.getString("aihe"), 
+					new Kurssi(kysymyksetRs.getString("kurssinimi"), 
+					kysymyksetRs.getInt("kurssi_id"))));
             }
         }
         return kysymykset;
@@ -52,33 +58,34 @@ public class KysymysDao {
     public Kysymys saveOrUpdate(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"SELECT * FROM Kurssi WHERE nimi = ?");
-			stmt.setString(1, kysymys.getKurssi().getNimi());
+				"SELECT * FROM Kysymys WHERE aihe = ? AND kysymysteksti = ? AND kurssi_id = ?");
+			stmt.setString(1, kysymys.getAihe());
+			stmt.setString(2, kysymys.getKysymysteksti());
+			stmt.setInt(3, kysymys.getKurssi().getId());
 			ResultSet olemassaolevaRs = stmt.executeQuery();
 			if (!olemassaolevaRs.next()) {
 				stmt = conn.prepareStatement(
-					"INSERT INTO Kurssi (nimi) VALUES (?)");
-				stmt.setString(1, kysymys.getKurssi().getNimi());
+					"INSERT INTO Kysymys (aihe, kysymysteksti, kurssi_id ) VALUES (?, ?, ?)");
+				stmt.setString(1, kysymys.getAihe());
+				stmt.setString(2, kysymys.getKysymysteksti());
+				stmt.setInt(3, kysymys.getKurssi().getId());
 				stmt.executeUpdate();
 			}
 			stmt = conn.prepareStatement(
-				"SELECT id FROM Kurssi WHERE nimi = ?");
-			stmt.setString(1, kysymys.getKurssi().getNimi());
+				"SELECT * FROM Kysymys WHERE aihe = ? AND kysymysteksti = ? AND kurssi_id = ?");
+			stmt.setString(1, kysymys.getAihe());
+			stmt.setString(2, kysymys.getKysymysteksti());
+			stmt.setInt(3, kysymys.getKurssi().getId());
 			ResultSet kurssiRs = stmt.executeQuery();
 			if (!kurssiRs.next()) {
-				return null;
+				throw new Exception("Kysymyksen saveOrUpdate:ssa lisays ei onnistunut");
 			}
-			int kurssiId = kurssiRs.getInt("id");
-			
-            stmt = conn.prepareStatement(
-                "INSERT INTO Kysymys (aihe, kysymysteksti, kurssi_id) VALUES (?, ?, ?)");
-            stmt.setString(1, kysymys.getAihe());
-			stmt.setString(2, kysymys.getKysymysteksti());
-			stmt.setInt(3, kurssiId);
-            stmt.executeUpdate();
+			return new Kysymys(kurssiRs.getInt("id"), kurssiRs.getString("kysymysteksti"), 
+				kurssiRs.getString("aihe"), new Kurssi(kysymys.getKurssi().getNimi(), 
+				kysymys.getKurssi().getId()));
         }
-        return null;
     }
+
     public void delete(Integer key) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(

@@ -12,6 +12,7 @@ import spark.Response;
 import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.database.Database;
+import tikape.database.KurssiDao;
 import tikape.database.KysymysDao;
 import tikape.database.VastausvaihtoehtoDao;
 
@@ -29,7 +30,8 @@ public class Kysymyspankki {
 
         KysymysDao kysymysDao = new KysymysDao(database);
 		VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
-        
+		KurssiDao kurssiDao = new KurssiDao(database);
+
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kysymykset", kysymysDao.findAll());
@@ -39,7 +41,7 @@ public class Kysymyspankki {
         Spark.get("/kysymykset/:id", (Request req, Response res) -> {
             HashMap map = new HashMap<>();
 			int id = Integer.parseInt(req.params(":id"));
-            map.put("kysymys", kysymysDao.findOne(id));
+            map.put("kysymys", kysymysDao.findOne(new Kysymys(id, null, null, null)));
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
@@ -47,8 +49,8 @@ public class Kysymyspankki {
             String vastausteksti = req.queryParams("vastausteksti");
             boolean oikein = Boolean.parseBoolean(req.queryParams("oikein"));
             int id = Integer.parseInt(req.params(":id"));
-			Kysymys kysymys = kysymysDao.findOne(id);
-			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(kysymys.getId(), vastausteksti, oikein));
+			Kysymys kysymys = kysymysDao.findOne(new Kysymys(id, null, null, null));
+			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, kysymys.getId(), vastausteksti, oikein));
 		    res.redirect("/kysymykset");
 		    return "OK";
         });
@@ -57,9 +59,8 @@ public class Kysymyspankki {
             String kysymysteksti = req.queryParams("kysymysteksti");
             String aihe = req.queryParams("aihe");
             String kurssinimi = req.queryParams("kurssi");
-            Kysymys kysymys = new Kysymys(-1, kysymysteksti, aihe, 
-				new Kurssi(kurssinimi));
-		    kysymysDao.saveOrUpdate(kysymys);
+			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
+			kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe, kurssi));
 		    res.redirect("/kysymykset");
 		    return "OK";
         });

@@ -7,7 +7,12 @@ package tikape;
 
 public class Kurssi {
 	public String nimi;	
+	private int id;
 
+	public Kurssi(String nimi, int id) {
+		this.nimi = nimi;
+		this.id = id;
+	}
 	public void setNimi(String nimi) {
 		this.nimi = nimi;
 	}
@@ -16,7 +21,11 @@ public class Kurssi {
 		return nimi;
 	}
 
-	public Kurssi(String nimi) {
-		this.nimi = nimi;
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
