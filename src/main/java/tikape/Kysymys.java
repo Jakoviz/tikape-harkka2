@@ -14,7 +14,8 @@ public class Kysymys {
 		this.kysymysteksti = kysymysteksti;
 		this.aihe = aihe;
 		this.kurssi = kurssi;
-    }
+     	this.vastausvaihtoehdot = new LinkedList<Vastausvaihtoehto>();
+	}
 
 	public List<Vastausvaihtoehto> getVastausvaihtoehto() {
 		return vastausvaihtoehdot;

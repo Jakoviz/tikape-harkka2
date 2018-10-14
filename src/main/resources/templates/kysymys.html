@@ -18,9 +18,9 @@ and open the template in the editor.
 			Aihepiiri: <span th:text="${kysymys.aihe}"/>
 			<ul>
 				<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
-					<span th:text="${kysymys.vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
-					<span th:text="${kysymys.vastausvaihtoehto.getOikein()}">Oikeellisuus</span>
-					<form method="POST" th:action="@{~/kysymykset/{id}/vastausvaihtoehdot/{id2}/delete(id=${kysymys.id}, id2=${kysymys.vastausvaihtoehto.getId()})">
+					<span th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
+					<span th:text="${vastausvaihtoehto.getOikein()}">Oikeellisuus</span>
+					<form method="POST" th:action="@{~/kysymykset/{id}/vastausvaihtoehdot/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})">
 						<input type="submit" value="Poista"/>
 					</form>
 				</li>
