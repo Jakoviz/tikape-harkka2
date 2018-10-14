@@ -57,13 +57,13 @@ public class KysymysDao {
 			if (!kurssiRs.next()) {
 				return null;
 			}
-			String kurssiId = kurssiRs.getString("id");
+			int kurssiId = kurssiRs.getInt("id");
 			
             stmt = conn.prepareStatement(
                 "INSERT INTO Kysymys (aihe, kysymysteksti, kurssi_id) VALUES (?, ?, ?)");
             stmt.setString(1, kysymys.getAihe());
 			stmt.setString(2, kysymys.getKysymysteksti());
-			stmt.setString(3, kurssiId);
+			stmt.setInt(3, kurssiId);
             stmt.executeUpdate();
         }
         return null;
