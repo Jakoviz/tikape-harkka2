@@ -33,8 +33,7 @@ public class KysymysDao {
 			return new Kysymys(kysymysRs.getInt("id"), 
 				kysymysRs.getString("kysymysteksti"), 
 				kysymysRs.getString("aihe"), 
-				new Kurssi(kysymysRs.getString("kurssi"), 
-				kysymysRs.getInt("kurssi_id")));
+				new Kurssi(null, kysymysRs.getInt("kurssi_id")));
 		}
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
