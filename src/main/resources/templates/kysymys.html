@@ -6,25 +6,33 @@ and open the template in the editor.
 -->
 <html>
 	<head>
-		<title>TODO supply a title</title>
+		<title>Kysymyskohtainen sivu/title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 	<body>
-		<div>TODO write content</div>
-		<h1 th:text="${kysymys.kysymysteksti}">Kysymys</h1>
-			<br>
-			Kurssi: <span th:text="${kysymys.kurssi}"/>
-			Aihepiiri: <span th:text="${kysymys.aihe}"/>
-			<ul>
-				<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
-					<span th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
-					<span th:text="${vastausvaihtoehto.getOikein()}">Oikeellisuus</span>
-					<form method="POST" th:action="@{~/kysymykset/{id}/vastausvaihtoehdot/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})">
-						<input type="submit" value="Poista"/>
-					</form>
-				</li>
-			</ul>
+		<h2 th:text="${kysymys.kysymysteksti}">Kysymys</h2>
+		  <table>
+			<tr>
+			  <td>
+				  Kurssi: <span th:text="${kysymys.kurssi}"/> 
+			  </td>
+			</tr>
+			<tr>
+			  <td>
+				Aihepiiri: <span th:text="${kysymys.aihe}"/>
+			  </td>
+			</tr>
+		  </table>
+		<ul>
+			<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
+				<span th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
+				<span th:text="${vastausvaihtoehto.getOikein()}">Oikeellisuus</span>
+				<form method="POST" th:action="@{~/kysymykset/{id}/vastausvaihtoehdot/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})">
+					<input type="submit" value="Poista"/>
+				</form>
+			</li>
+		</ul>
 
 		<h1>Luo uusi vastausvaihtoehto</h1>
 		<form method="POST" action="/kysymykset/{id}/vastausvaihtoehdot(id=${kysymys.id})">

@@ -58,7 +58,7 @@ public class Kysymyspankki {
             int id = Integer.parseInt(req.params(":id"));
 			Kysymys kysymys = kysymysDao.findOne(new Kysymys(id, null, null, null));
 			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, kysymys.getId(), vastausteksti, oikein));
-		    res.redirect("/kysymykset");
+		    res.redirect("/kysymykset/:id/vastausvaihtoehdot");
 		    return "OK";
         });
 
