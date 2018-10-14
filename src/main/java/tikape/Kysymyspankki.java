@@ -36,9 +36,16 @@ public class Kysymyspankki {
             String kysymysteksti = req.queryParams("kysymysteksti");
             String aihe = req.queryParams("aihe");
             String kurssinimi = req.queryParams("kurssi");
-            Kysymys kysymys = new Kysymys(kysymysteksti, aihe, 
+            Kysymys kysymys = new Kysymys(-1, kysymysteksti, aihe, 
 				new Kurssi(kurssinimi));
 		    kysymysDao.saveOrUpdate(kysymys);
+		    res.redirect("/");
+		    return "";
+        });
+
+        Spark.post("/kysymykset/:id/delete/delete(kysymysId=:kysymysId)", (req, res) -> {
+			String id = req.params("id");
+		    kysymysDao.delete(Integer.parseInt(id));
 		    res.redirect("/");
 		    return "";
         });

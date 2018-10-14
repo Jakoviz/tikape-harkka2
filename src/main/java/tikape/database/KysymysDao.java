@@ -28,11 +28,11 @@ public class KysymysDao {
         List<Kysymys> kysymykset = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"SELECT a.kysymysteksti, a.aihe, b.nimi as kurssinimi FROM Kysymys as a"
+				"SELECT a.id, a.kysymysteksti, a.aihe, b.nimi as kurssinimi FROM Kysymys as a"
 					+ " JOIN Kurssi as b on a.kurssi_id = b.id");
 			ResultSet kysymyksetRs = stmt.executeQuery();
             while (kysymyksetRs.next()) {
-                kysymykset.add(new Kysymys(kysymyksetRs.getString("kysymysteksti"), 
+                kysymykset.add(new Kysymys(kysymyksetRs.getInt("id"), kysymyksetRs.getString("kysymysteksti"), 
 				kysymyksetRs.getString("aihe"), new Kurssi(kysymyksetRs.getString("kurssinimi"))));
             }
         }
@@ -68,7 +68,12 @@ public class KysymysDao {
         }
         return null;
     }
-    public void delete(Integer key) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void delete(Integer key) throws SQLException, Exception {
+        try (Connection conn = database.getConnection()) {
+			PreparedStatement stmt = conn.prepareStatement(
+				"DELETE * FROM Kurssi WHERE id = ?");
+			stmt.setInt(1, key);
+			ResultSet olemassaolevaRs = stmt.executeQuery();
+		}
     }
 }
