@@ -12,8 +12,8 @@
 	<form method="GET" action="/">
 	    <ul>
 		<li th:each="kysymys: ${kysymykset}">
-		    <h3 th:text="${kysymys.kurssi"}>kurssi</h3>
 		    <h4 th:text="${kysymys.aihe}">aihe</h4>
+		    <h3 th:text="${kysymys.kurssi.nimi"}>kurssi</h3>
 		    <span th:text="${kysymys.kysymysteksti}">kysymysteksti</span> 
 		    <form method="POST" th:action="@{~/kysymykset/{kysymysId}/delete(kysymysId=${kysymys.id})}"><input type="submit" value="Poista"/></form>
 		</li>
