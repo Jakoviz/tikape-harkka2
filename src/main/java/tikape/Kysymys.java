@@ -9,16 +9,20 @@ public class Kysymys {
     private Kurssi kurssi;
     private List<Vastausvaihtoehto> vastausvaihtoehdot;
 
+	public void setVastausvaihtoehdot(List<Vastausvaihtoehto> vastausvaihtoehdot) {
+		this.vastausvaihtoehdot = vastausvaihtoehdot;
+	}
+
+	public List<Vastausvaihtoehto> getVastausvaihtoehdot() {
+		return vastausvaihtoehdot;
+	}
+
     public Kysymys(int id, String kysymysteksti, String aihe, Kurssi kurssi) {
 		this.id = id;
 		this.kysymysteksti = kysymysteksti;
 		this.aihe = aihe;
 		this.kurssi = kurssi;
-     	this.vastausvaihtoehdot = new LinkedList<Vastausvaihtoehto>();
-	}
-
-	public List<Vastausvaihtoehto> getVastausvaihtoehto() {
-		return vastausvaihtoehdot;
+     	this.vastausvaihtoehdot = new LinkedList<>();
 	}
 
 	public void addVastausvaihtoehto(Vastausvaihtoehto vastausvaihtoehto) {
