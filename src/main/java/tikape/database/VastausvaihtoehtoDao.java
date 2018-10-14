@@ -57,7 +57,7 @@ public class VastausvaihtoehtoDao {
 			stmt.executeUpdate();
 		} else {
 			stmt = conn.prepareStatement(
-				"UPDATE Vastausvaihtoehto (oikein) VALUES (?) WHERE vastausteksti = (?)");
+				"UPDATE Vastausvaihtoehto (oikein) VALUES (?) WHERE vastausteksti = ?");
 			stmt.setBoolean(1, vastausvaihtoehto.isOikein());
 			stmt.setString(2, vastausvaihtoehto.getVastaus());
 			stmt.executeUpdate();			
