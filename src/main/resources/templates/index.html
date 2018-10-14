@@ -9,55 +9,45 @@
     <body>
         <h2>Kysymykset</h2>
 
-        <ul>
-            <li th:each="kysymys: ${kysymykset}">
-		<h3 th:text="${kysymys.kurssi"}>kurssi</h3>
-		<h4 th:text="${kysymys.aihe}">aihe</h4>
-                <span th:text="${kysymys.kysymysteksti}">kysymysteksti</span> 
-		<form method="POST" th:action="@{~/kysymykset/{kysymysId}/delete(kysymysId=${kysymys.id})}"><input type="submit" value="Poista"/></form>
-            </li>
-        </ul>
+	<form method="GET" action="/">
+	    <ul>
+		<li th:each="kysymys: ${kysymykset}">
+		    <h3 th:text="${kysymys.kurssi"}>kurssi</h3>
+		    <h4 th:text="${kysymys.aihe}">aihe</h4>
+		    <span th:text="${kysymys.kysymysteksti}">kysymysteksti</span> 
+		    <form method="POST" th:action="@{~/kysymykset/{kysymysId}/delete(kysymysId=${kysymys.id})}"><input type="submit" value="Poista"/></form>
+		</li>
+	    </ul>
+	</form>
 
-
-        <form method="POST" action="/opiskelijat">
-            Nimi:<br/>
-            <input type="text" name="nimi"/>
-            <input type="submit" value="Lisää!"/>            
-        </form>
-	
-	  <h2>Luo uusi kysymys</h2>
-	  <form>
-	    <table>
-	      <tbody><tr>
-		<td>
-		  Kurssi:
-		</td>
-		<td>
-		    <input type="text" name="kurssi">
-		</td>
-	      </tr>
-	      <tr>
-		<td>
-		  Aihe:
-		</td>
-		<td>
-		    <input type="text" name="aihe">
-		</td>
-	      </tr>
-	      <tr>
-		<td>
-		  Kysymysteksti:
-		</td>
-		<td>
-		    <input type="text" name="kysymysteksti">
-		</td>
-	      </tr>
-	    </tbody></table>
-
-	    <input type="submit" value="Luo">
-	  </form>
+        <h2>Luo uusi kysymys</h2>
+        <form method="POST" action="/kysymykset">
+	      <table>
+		  <tr>
+		    <td>
+		      Kurssi:
+		    </td>
+		    <td>
+			<input type="text" name="kurssi"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      Aihe:
+		    </td>
+		    <td>
+			<input type="text" name="aihe"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>
+		      Kysymysteksti:
+		    </td>
+		    <td>
+			<input type="text" name="kysymysteksti"/>
+		    </td>
+		  </tr>
+	    </table>
 	<object id="__symantecPKIClientMessenger" data-supports-flavor-configuration="true" data-extension-version="0.5.0.109" style="display: none;"></object><span id="__symantecPKIClientDetector" style="display: none;">__PRESENT</span></body></html>
     </body>
-
-
 </html>

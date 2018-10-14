@@ -32,12 +32,13 @@ public class Kysymyspankki {
             return new ModelAndView(map, "index");
         }, new ThymeleafTemplateEngine());
 
-        Spark.post("/", (req, res) -> {
+        Spark.post("/kysymykset", (req, res) -> {
             String kysymysteksti = req.queryParams("kysymysteksti");
-            String kurssi = req.queryParams("kurssi");
             String aihe = req.queryParams("aihe");
-            Kysymys tehtava = new Kysymys(kysymysteksti, aihe, kurssi);
-            kysymysDao.saveOrUpdate(tehtava);
+            String kurssinimi = req.queryParams("kurssi");
+            Kysymys kysymys = new Kysymys(kysymysteksti, aihe, 
+		new Kurssi(kurssinimi));
+            kysymysDao.saveOrUpdate(kysymys);
             res.redirect("/");
             return "";
         });
