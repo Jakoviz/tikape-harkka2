@@ -1,17 +1,29 @@
 package tikape;
 
+import java.util.*;
+
 public class Kysymys {
     private int id;
     private String kysymysteksti;
     private String aihe;
     private Kurssi kurssi;
+    private List<Vastausvaihtoehto> vastausvaihtoehdot;
 
     public Kysymys(int id, String kysymysteksti, String aihe, Kurssi kurssi) {
-	this.id = id;
-	this.kysymysteksti = kysymysteksti;
-	this.aihe = aihe;
-	this.kurssi = kurssi;
+		this.id = id;
+		this.kysymysteksti = kysymysteksti;
+		this.aihe = aihe;
+		this.kurssi = kurssi;
     }
+
+	public List<Vastausvaihtoehto> getVastausvaihtoehto() {
+		return vastausvaihtoehdot;
+	}
+
+	public void addVastausvaihtoehto(Vastausvaihtoehto vastausvaihtoehto) {
+		this.vastausvaihtoehdot.add(vastausvaihtoehto);
+	}
+
     public void setId(int id) {
 	this.id = id;
     }

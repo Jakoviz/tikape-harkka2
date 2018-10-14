@@ -13,6 +13,7 @@ import spark.Spark;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 import tikape.database.Database;
 import tikape.database.KysymysDao;
+import tikape.database.VastausvaihtoehtoDao;
 
 public class Kysymyspankki {
 
@@ -27,6 +28,7 @@ public class Kysymyspankki {
         Database database = new Database("org.sqlite.JDBC", "jdbc:sqlite:tasks.db");
 
         KysymysDao kysymysDao = new KysymysDao(database);
+		VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
         
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -37,9 +39,19 @@ public class Kysymyspankki {
         Spark.get("/kysymykset/:id", (Request req, Response res) -> {
             HashMap map = new HashMap<>();
 			int id = Integer.parseInt(req.params(":id"));
-            map.put("kysymykset", kysymysDao.findAll());
-            return new ModelAndView(map, "kysymykset");
+            map.put("kysymys", kysymysDao.findOne(id));
+            return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
+
+        Spark.post("/kysymykset/:id/vastausvaihtoehdot", (req, res) -> {
+            String vastausteksti = req.queryParams("vastausteksti");
+            boolean oikein = Boolean.parseBoolean(req.queryParams("oikein"));
+            int id = Integer.parseInt(req.params(":id"));
+			Kysymys kysymys = kysymysDao.findOne(id);
+			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(kysymys.getId(), vastausteksti, oikein));
+		    res.redirect("/kysymykset");
+		    return "OK";
+        });
 
         Spark.post("/kysymykset", (req, res) -> {
             String kysymysteksti = req.queryParams("kysymysteksti");

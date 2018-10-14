@@ -12,6 +12,41 @@ and open the template in the editor.
 	</head>
 	<body>
 		<div>TODO write content</div>
-		
+		<h1 th:text="${kysymys.kysymysteksti}">Kysymys</h1>
+			<br>
+			Kurssi: <span th:text="${kysymys.kurssi}"/>
+			Aihepiiri: <span th:text="${kysymys.aihe}"/>
+			<ul>
+				<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
+					<span th:text="${kysymys.vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
+					<span th:text="${kysymys.vastausvaihtoehto.getOikein()}">Oikeellisuus</span>
+					<form method="POST" th:action="@{~/kysymykset/{id}/vastausvaihtoehdot/{id2}/delete(id=${kysymys.id}, id2=${kysymys.vastausvaihtoehto.getId()})">
+						<input type="submit" value="Poista"/>
+					</form>
+				</li>
+			</ul>
+
+		<h1>Luo uusi vastausvaihtoehto</h1>
+		<form method="POST" action="/kysymykset/{id}/vastausvaihtoehdot(id=${kysymys.id})">
+			<table>
+			  <tr>
+				<td>
+				  Vastausteksti:
+				</td>
+				<td>
+				<input type="text" name="vastausteksti"/>
+				</td>
+			  </tr>
+			  <tr>
+				<td>
+				  Oikein:
+				</td>
+				<td>
+				<input type="checkbox" name="oikein"/>
+				</td>
+			  </tr>
+			</table>
+			<input type="submit" value="Luo"/>
+		</form>	
 	</body>
 </html>

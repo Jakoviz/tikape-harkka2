@@ -14,11 +14,11 @@ import tikape.Kurssi;
 import tikape.database.Database;
 import tikape.Kysymys;
 
-public class KysymysDao {
+public class KurssiDao {
 
     private Database database;
 
-    public KysymysDao(Database database) {
+    public KurssiDao(Database database) {
         this.database = database;
     }
     public Kysymys findOne(Integer key) throws SQLException, Exception {
@@ -39,8 +39,7 @@ public class KysymysDao {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
 				"SELECT a.id, a.kysymysteksti, a.aihe, b.nimi as kurssinimi FROM Kysymys as a"
-					+ " JOIN Kurssi as b on a.kurssi_id = b.id"
-					+ " JOIN Vastausvaihetoehto as c on a.id = c.kysymys_id");
+					+ " JOIN Kurssi as b on a.kurssi_id = b.id");
 			ResultSet kysymyksetRs = stmt.executeQuery();
             while (kysymyksetRs.next()) {
                 kysymykset.add(new Kysymys(kysymyksetRs.getInt("id"), kysymyksetRs.getString("kysymysteksti"), 
