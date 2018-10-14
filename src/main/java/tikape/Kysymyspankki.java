@@ -38,14 +38,14 @@ public class Kysymyspankki {
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
-        Spark.get("/kysymykset/:id", (Request req, Response res) -> {
-            HashMap map = new HashMap<>();
-			int id = Integer.parseInt(req.params(":id"));
-            map.put("kysymys", kysymysDao.findOne(new Kysymys(id, null, null, null)));
-            return new ModelAndView(map, "kysymys");
-        }, new ThymeleafTemplateEngine());
+//        Spark.get("/kysymykset/:id", (Request req, Response res) -> {
+//            HashMap map = new HashMap<>();
+//			int id = Integer.parseInt(req.params(":id"));
+//            map.put("kysymys", kysymysDao.findOne(new Kysymys(id, null, null, null)));
+//            return new ModelAndView(map, "kysymys");
+//        }, new ThymeleafTemplateEngine());
 
-        Spark.get("/kysymykset/:id/vastausvaihtoehdot", (req, res) -> {
+        Spark.get("/kysymykset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
 			String id = req.params(":id");
             map.put("kysymys", kysymysDao.findOne(
@@ -53,7 +53,7 @@ public class Kysymyspankki {
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
-        Spark.post("/kysymykset/:id/vastausvaihtoehdot", (req, res) -> {
+        Spark.post("/kysymykset/:id", (req, res) -> {
             String vastausteksti = req.queryParams("vastausteksti");
 			String oikein = req.queryParams("oikein");
 			String id = req.params(":id");
@@ -61,7 +61,7 @@ public class Kysymyspankki {
 				new Kysymys(Integer.parseInt(id), null, null, null));
 			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
 				kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
-		    res.redirect("/kysymykset/:id/vastausvaihtoehdot");
+		    res.redirect("/kysymykset/:id");
 		    return "OK";
         });
 

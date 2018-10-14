@@ -34,7 +34,7 @@ public class Kysymys {
     }
 
     public int getId() {
-	return id;
+		return this.id;
     }
     
     public void setKurssi(Kurssi kurssi) {
