@@ -12,7 +12,7 @@
 			<li th:each="kysymys: ${kysymykset}">
 				<h3 th:text="${kysymys.kurssi.getNimi()}">kurssi</h3>
 				<h4 th:text="${kysymys.aihe}">aihe</h4>
-				<a th:href="@{~/kysymykset/{id}/vastausvaihtoehdot(id=${kysymys.id})}">
+				<a th:href="@{~/kysymykset/{id}(id=${kysymys.id})}">
 					<span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
 				</a>
 				<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
