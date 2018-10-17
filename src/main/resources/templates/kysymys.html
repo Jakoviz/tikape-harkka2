@@ -25,7 +25,7 @@
 			<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
 				<span th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
 				<span th:text="${vastausvaihtoehto.isOikein()}">Oikeellisuus</span>
-				<form method="POST" th:action="@{~/kysymykset/{id}/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})">
+				<form method="POST" th:action="@{~/kysymykset/{id}/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})}">
 					<input type="submit" value="Poista"/>
 				</form>
 			</li>
