@@ -54,6 +54,7 @@ public class Kysymyspankki {
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/kysymykset/:id", (req, res) -> {
+	    System.out.println("/kysymykset/:id");
             String vastausteksti = req.queryParams("vastausteksti");
 			String oikein = req.queryParams("oikein");
 			String id = req.params(":id");
