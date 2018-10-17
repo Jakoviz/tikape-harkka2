@@ -49,8 +49,8 @@ public class Kysymyspankki {
             HashMap map = new HashMap<>();
 	    String id = req.params(":id");
             map.put("kysymys", kysymysDao.findOne(
-		new Kysymys(Integer.parseInt(id), null, null, null, vastausvaihtoehtoDao.findAll())));
-	    
+		new Kysymys(Integer.parseInt(id), null, null, null, 
+		    vastausvaihtoehtoDao.findAll(Integer.parseInt(id)))));
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 

@@ -23,19 +23,20 @@ public class KysymysDao {
     }
     public Kysymys findOne(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement(
-				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
-			stmt.setInt(1, kysymys.getId());
-			ResultSet kysymysRs = stmt.executeQuery();
-			if (!kysymysRs.next()) {
-				throw new Exception("Kysymyksen findOne:ssa virhe");	
-			}
-			return new Kysymys(kysymysRs.getInt("id"), 
-				kysymysRs.getString("kysymysteksti"), 
-				kysymysRs.getString("aihe"), 
-				new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("kurssi_id")),
-				null);
+		PreparedStatement stmt = conn.prepareStatement(
+			"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
+		stmt.setInt(1, kysymys.getId());
+		ResultSet kysymysRs = stmt.executeQuery();
+		if (!kysymysRs.next()) {
+			throw new Exception("Kysymyksen findOne:ssa virhe");	
 		}
+		return new Kysymys(kysymysRs.getInt("id"), 
+			kysymysRs.getString("kysymysteksti"), 
+			kysymysRs.getString("aihe"), 
+			new Kurssi(kysymysRs.getString("nimi"), 
+			    kysymysRs.getInt("kurssi_id")),
+			kysymys.getVastausvaihtoehdot());
+	}
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
         List<Kysymys> kysymykset = new ArrayList<>();
