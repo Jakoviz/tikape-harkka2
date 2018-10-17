@@ -88,8 +88,9 @@ public class KysymysDao {
     public void delete(Integer key) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"DELETE FROM Kysymys WHERE id = ?");
+				"DELETE FROM Kysymys WHERE id = ?; DELETE From Vastausvaihtoehto WHERE kysymys_id = ?");
 			stmt.setInt(1, key);
+			stmt.setInt(2, key);
 			stmt.executeUpdate();
 		}
     }

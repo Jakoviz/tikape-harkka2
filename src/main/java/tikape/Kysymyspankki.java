@@ -56,14 +56,14 @@ public class Kysymyspankki {
         Spark.post("/kysymykset/:id", (req, res) -> {
 	    System.out.println("/kysymykset/:id");
             String vastausteksti = req.queryParams("vastausteksti");
-			String oikein = req.queryParams("oikein");
-			String id = req.params(":id");
-			Kysymys kysymys = kysymysDao.findOne(
-				new Kysymys(Integer.parseInt(id), null, null, null));
-			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
-				kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
-		    res.redirect("/kysymykset/:id");
-		    return "OK";
+	    String oikein = req.queryParams("oikein");
+	    String id = req.params(":id");
+	    Kysymys kysymys = kysymysDao.findOne(
+		new Kysymys(Integer.parseInt(id), null, null, null));
+	    vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
+		kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
+		res.redirect("/kysymykset/:" + id);
+		return "";
         });
 
         Spark.post("/kysymykset", (req, res) -> {
@@ -73,14 +73,14 @@ public class Kysymyspankki {
 			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
 			kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe, kurssi));
 		    res.redirect("/kysymykset");
-		    return "OK";
+		    return "";
         });
 
         Spark.post("/kysymykset/:id/delete", (req, res) -> {
 			String id = req.params(":id");
 		    kysymysDao.delete(Integer.parseInt(id));
 		    res.redirect("/kysymykset");
-		    return "OK";
+		    return "";
         });
     }
 
