@@ -47,9 +47,10 @@ public class Kysymyspankki {
 
         Spark.get("/kysymykset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-			String id = req.params(":id");
+	    String id = req.params(":id");
             map.put("kysymys", kysymysDao.findOne(
-				new Kysymys(Integer.parseInt(id), null, null, null)));
+		new Kysymys(Integer.parseInt(id), null, null, null)));
+	    map.put("vastausvaihtoehdot", kysymysDao.findAll());
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
@@ -70,10 +71,10 @@ public class Kysymyspankki {
             String kysymysteksti = req.queryParams("kysymysteksti");
             String aihe = req.queryParams("aihe");
             String kurssinimi = req.queryParams("kurssi");
-			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
-			kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe, kurssi));
-		    res.redirect("/kysymykset");
-		    return "";
+	    Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
+	    kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe, kurssi));
+	    res.redirect("/kysymykset");
+	    return "";
         });
 
         Spark.post("/kysymykset/:id/delete", (req, res) -> {
