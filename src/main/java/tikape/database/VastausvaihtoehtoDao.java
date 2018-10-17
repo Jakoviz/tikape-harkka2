@@ -46,8 +46,8 @@ public class VastausvaihtoehtoDao {
             while (vastausvaihtoehdotRs.next()) {
                 vastausvaihtoehdot.add(new Vastausvaihtoehto(
 			vastausvaihtoehdotRs.getInt("id"), 
-			vastausvaihtoehdotRs.getInt("kysymysteksti"), 
-			vastausvaihtoehdotRs.getString("aihe"), 
+			vastausvaihtoehdotRs.getInt("kysymys_id"), 
+			vastausvaihtoehdotRs.getString("vastausteksti"), 
 			vastausvaihtoehdotRs.getBoolean("oikein")));
             }
         } 
