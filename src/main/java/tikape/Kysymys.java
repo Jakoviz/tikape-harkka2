@@ -17,12 +17,12 @@ public class Kysymys {
 		return vastausvaihtoehdot;
 	}
 
-    public Kysymys(int id, String kysymysteksti, String aihe, Kurssi kurssi) {
+    public Kysymys(int id, String kysymysteksti, String aihe, Kurssi kurssi, List<Vastausvaihtoehto> vastausvaihtoehdot) {
 		this.id = id;
 		this.kysymysteksti = kysymysteksti;
 		this.aihe = aihe;
 		this.kurssi = kurssi;
-     	this.vastausvaihtoehdot = new LinkedList<>();
+		this.vastausvaihtoehdot = vastausvaihtoehdot;
 	}
 
 	public void addVastausvaihtoehto(Vastausvaihtoehto vastausvaihtoehto) {

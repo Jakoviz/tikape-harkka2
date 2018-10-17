@@ -33,7 +33,8 @@ public class KysymysDao {
 			return new Kysymys(kysymysRs.getInt("id"), 
 				kysymysRs.getString("kysymysteksti"), 
 				kysymysRs.getString("aihe"), 
-				new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("kurssi_id")));
+				new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("kurssi_id")),
+				null);
 		}
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
@@ -49,7 +50,8 @@ public class KysymysDao {
 					kysymyksetRs.getString("kysymysteksti"), 
 					kysymyksetRs.getString("aihe"), 
 					new Kurssi(kysymyksetRs.getString("kurssinimi"), 
-						kysymyksetRs.getInt("kurssi_id"))));
+					kysymyksetRs.getInt("kurssi_id")),
+					null));
             }
         } 
         return kysymykset;
@@ -81,7 +83,8 @@ public class KysymysDao {
 			}
 			return new Kysymys(kurssiRs.getInt("id"), kurssiRs.getString("kysymysteksti"), 
 				kurssiRs.getString("aihe"), new Kurssi(kysymys.getKurssi().getNimi(), 
-				kysymys.getKurssi().getId()));
+				kysymys.getKurssi().getId()),
+				null);
         }
     }
 
