@@ -29,8 +29,8 @@ public class Kysymyspankki {
         Database database = new Database("org.sqlite.JDBC", "jdbc:sqlite:tasks.db");
 
         KysymysDao kysymysDao = new KysymysDao(database);
-		VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
-		KurssiDao kurssiDao = new KurssiDao(database);
+	VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
+	KurssiDao kurssiDao = new KurssiDao(database);
 		
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
@@ -38,10 +38,10 @@ public class Kysymyspankki {
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
-//        Spark.get("/kysymykset/:id", (Request req, Response res) -> {
+//        Spark.get("/kysymykset/:kysymysId", (Request req, Response res) -> {
 //            HashMap map = new HashMap<>();
-//			int id = Integer.parseInt(req.params(":id"));
-//            map.put("kysymys", kysymysDao.findOne(new Kysymys(id, null, null, null)));
+//			int kysymysId = Integer.parseInt(req.params(":kysymysId"));
+//            map.put("kysymys", kysymysDao.findOne(new Kysymys(kysymysId, null, null, null)));
 //            return new ModelAndView(map, "kysymys");
 //        }, new ThymeleafTemplateEngine());
 
@@ -63,6 +63,14 @@ public class Kysymyspankki {
 	    vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
 		kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
 	    res.redirect("/kysymykset/" + id);
+	    return "";
+        });
+
+	Spark.post("/kysymykset/:id/:id2/delete", (req, res) -> {
+	    String kysymysId = req.params(":id");
+	    String vastausvaihtoehtoId = req.params(":id2");
+	    vastausvaihtoehtoDao.delete(Integer.parseInt(vastausvaihtoehtoId));
+	    res.redirect("/kysymykset");
 	    return "";
         });
 

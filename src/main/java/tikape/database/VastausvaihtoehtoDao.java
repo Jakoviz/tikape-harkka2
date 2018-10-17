@@ -93,7 +93,7 @@ public class VastausvaihtoehtoDao {
     public void delete(Integer key) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"DELETE FROM Kysymys WHERE id = ?");
+				"DELETE FROM Vastausvaihtoehto WHERE id = ?");
 			stmt.setInt(1, key);
 			stmt.executeUpdate();
 		}
