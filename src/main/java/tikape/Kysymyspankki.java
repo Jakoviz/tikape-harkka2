@@ -70,7 +70,7 @@ public class Kysymyspankki {
 	    String kysymysId = req.params(":id");
 	    String vastausvaihtoehtoId = req.params(":id2");
 	    vastausvaihtoehtoDao.delete(Integer.parseInt(vastausvaihtoehtoId));
-	    res.redirect("/kysymykset");
+	    res.redirect("/kysymykset/" + kysymysId);
 	    return "";
         });
 
@@ -85,10 +85,10 @@ public class Kysymyspankki {
         });
 
         Spark.post("/kysymykset/:id/delete", (req, res) -> {
-			String id = req.params(":id");
-		    kysymysDao.delete(Integer.parseInt(id));
-		    res.redirect("/kysymykset");
-		    return "";
+	    String id = req.params(":id");
+	    kysymysDao.delete(Integer.parseInt(id));
+	    res.redirect("/kysymykset");
+	    return "";
         });
     }
 
