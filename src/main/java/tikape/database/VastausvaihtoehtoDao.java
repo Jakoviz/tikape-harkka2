@@ -38,8 +38,20 @@ public class VastausvaihtoehtoDao {
 		    vastausvaihtoehtoRs.getBoolean("oikein")); 
 	}
     }
-    public List<Kysymys> findAll() throws SQLException, Exception {
-	    throw new NotImplementedException();
+    public List<Vastausvaihtoehto> findAll() throws SQLException, Exception {
+	List<Vastausvaihtoehto> vastausvaihtoehdot= new ArrayList<>();
+        try (Connection conn = database.getConnection()) {
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Vastausvaihtoehto");
+			ResultSet vastausvaihtoehdotRs = stmt.executeQuery();
+            while (vastausvaihtoehdotRs.next()) {
+                vastausvaihtoehdot.add(new Vastausvaihtoehto(
+			vastausvaihtoehdotRs.getInt("id"), 
+			vastausvaihtoehdotRs.getInt("kysymysteksti"), 
+			vastausvaihtoehdotRs.getString("aihe"), 
+			vastausvaihtoehdotRs.getBoolean("oikein")));
+            }
+        } 
+        return vastausvaihtoehdot;
     }
     public Vastausvaihtoehto saveOrUpdate(Vastausvaihtoehto vastausvaihtoehto) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {

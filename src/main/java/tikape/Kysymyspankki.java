@@ -50,12 +50,11 @@ public class Kysymyspankki {
 	    String id = req.params(":id");
             map.put("kysymys", kysymysDao.findOne(
 		new Kysymys(Integer.parseInt(id), null, null, null)));
-	    map.put("vastausvaihtoehdot", kysymysDao.findAll());
+	    map.put("vastausvaihtoehdot", vastausvaihtoehtoDao.findAll());
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
         Spark.post("/kysymykset/:id", (req, res) -> {
-	    System.out.println("/kysymykset/:id");
             String vastausteksti = req.queryParams("vastausteksti");
 	    String oikein = req.queryParams("oikein");
 	    String id = req.params(":id");
@@ -63,8 +62,8 @@ public class Kysymyspankki {
 		new Kysymys(Integer.parseInt(id), null, null, null));
 	    vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
 		kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
-		res.redirect("/kysymykset/" + id);
-		return "";
+	    res.redirect("/kysymykset/" + id);
+	    return "";
         });
 
         Spark.post("/kysymykset", (req, res) -> {
