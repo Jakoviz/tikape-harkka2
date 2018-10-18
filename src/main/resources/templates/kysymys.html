@@ -8,16 +8,16 @@
 	
 	<body>
 		<h1 th:text="${kysymys.getKysymysteksti()}">Kysymys</h1>
-		<span style="color:tomato;" th:text="${error}"> 
+		<span style="color:tomato;" th:text="${error}"/> 
 		  <table>
 			<tr>
 			  <td>
-				  Kurssi: <h3 th:text="${kysymys.getKurssi().getNimi()}"/> 
+				  <font size="18"> Kurssi:</font> <font size="18" th:text="${kysymys.getKurssi().getNimi()}"/> 
 			  </td>
 			</tr>
 			<tr>
 			  <td>
-				  Aihepiiri: <h3 th:text="${kysymys.getAihe()}"/>
+				  <font size="18"> Aihepiiri:</font> <font size="18" th:text="${kysymys.getAihe()}"/>
 			  </td>
 			</tr>
 		  </table>
