@@ -29,8 +29,13 @@ public class Kysymyspankki {
         KysymysDao kysymysDao = new KysymysDao(database);
 	VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
 	KurssiDao kurssiDao = new KurssiDao(database);
-		
-        Spark.get("/kysymykset/", (req, res) -> {
+
+        Spark.get("/", (req, res) -> {
+	    res.redirect("/kysymykset");
+	    return null;
+        }, new ThymeleafTemplateEngine());
+	
+        Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kysymykset", kysymysDao.findAll());
             return new ModelAndView(map, "kysymykset");
