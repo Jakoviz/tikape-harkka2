@@ -74,7 +74,7 @@ public class Kysymyspankki {
         Spark.get("/kysymykset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
 			int id = Integer.parseInt(req.params(":id"));
-			Kysymys kysymys = new Kysymys(id, null, null, null);
+			Kysymys kysymys = kysymysDao.findOne(new Kysymys(id, null, null, null));
 			kysymys.setVastausvaihtoehdot(vastausvaihtoehtoDao.findAll(id));
 			Kurssi tamanKysymyksenKurssi = kurssiDao.findOne(kysymys);
 			kysymys.setKurssi(tamanKysymyksenKurssi);

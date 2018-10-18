@@ -2,29 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 
 	<head>
-		<title>Kysymyskohtainen sivu</title>
+		<title th:text="${kysymys.getKysymysteksti()}">Kysymyskohtainen sivu</title>
 		<meta charset="UTF-8">
 		<!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
 	</head>
 	
 	<body>
-		<h2 th:text="${kysymys.kysymysteksti}">Kysymys</h2>
+		<h2 th:text="${kysymys.getKysymysteksti()}">Kysymys</h2>
 		  <table>
 			<tr>
 			  <td>
-				Kurssi: <span th:text="${kysymys.getKurssi().getNimi()}"/> 
+				  <h3> Kurssi: </h3> <h3 th:text="${kysymys.getKurssi().getNimi()}"/> 
 			  </td>
 			</tr>
 			<tr>
 			  <td>
-				Aihepiiri: <span th:text="${kysymys.getAihe()}"/>
+				  <h3> Aihepiiri: </h3> <h3 th:text="${kysymys.getAihe()}"/>
 			  </td>
 			</tr>
 		  </table>
 		<ul>
 			<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
 				<span th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</span> 
-				<span th:text="${vastausvaihtoehto.isOikein()}">Oikeellisuus</span>
+				<strong th:text="${vastausvaihtoehto.isOikein()}">Oikeellisuus</strong>
 				<form method="POST" th:action="@{~/kysymykset/{id}/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})}">
 					<input type="submit" value="Poista"/>
 				</form>
@@ -53,5 +53,10 @@
 			</table>
 			<input type="submit" value="Luo"/>
 		</form>	
+		<ul>
+			<li>
+				<a href="../../">Kysymysten listaukseen</a>
+			</li>
+		</ul>
 	</body>
 </html>
