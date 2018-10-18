@@ -82,6 +82,12 @@ public class Kysymyspankki {
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
+		Spark.get("/kysymykset/:id/eivastaustekstia", (req, res) -> {
+            HashMap map = new HashMap<>();
+			map.put("error", "Ei annettu vastaustekstiä"); 
+            return new ModelAndView(map, "kysymys");
+        }, new ThymeleafTemplateEngine());
+
         Spark.post("/kysymykset/:id", (req, res) -> {
             String vastausteksti = req.queryParams("vastausteksti");
 			boolean oikein;
@@ -91,6 +97,9 @@ public class Kysymyspankki {
 				oikein = false;
 			}
 			String id = req.params(":id");
+			if (vastausteksti.isEmpty()) {
+				res.redirect("/kysymykset/" + id + "/eivastaustekstia");
+			}
 			Kysymys kysymys = kysymysDao.findOne(
 				new Kysymys(Integer.parseInt(id), null, null, null));
 			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 

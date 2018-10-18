@@ -7,19 +7,19 @@
     </head>
 
     <body>
-        <h2>Kysymykset</h2>
+        <h1>Kysymykset</h1>
 		<ul>
 			<li th:each="kurssi: ${kurssit}">
-				Kurssi: <span th:text="${kurssi.getNimi()}">kurssi</span>
+				Kurssi: <h3 th:text="${kurssi.getNimi()}">kurssi</h3>
 				<ul>
 					<li th:each="kysymys: ${kurssi.getKysymykset()}">
-						Aihe: <span th:text="${kysymys.aihe}">aihe</span><br>
+						Aihe: <h3 th:text="${kysymys.aihe}">aihe</h3><br>
 						<a th:href="@{~/kysymykset/{id}(id=${kysymys.id})}">
 							<span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
 						</a><br><br>
 						<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
 							<input type="submit" value="Poista"/>
-						</form>
+						</form><br>
 					</li>
 				</ul>
 			</li>
