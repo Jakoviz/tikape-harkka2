@@ -68,13 +68,13 @@ public class VastausvaihtoehtoDao {
 			stmt = conn.prepareStatement(
 				"INSERT INTO Vastausvaihtoehto (vastausteksti, oikein, kysymys_id) VALUES (?, ?, ?)");
 			stmt.setString(1, vastausvaihtoehto.getVastaus());
-			stmt.setString(2, vastausvaihtoehto.isOikein() ? "t" : "f");
+			stmt.setBoolean(2, vastausvaihtoehto.isOikein() ? "t" : "f");
 			stmt.setInt(3, vastausvaihtoehto.getKysymys_id());
 			stmt.executeUpdate();
 		} else {
 			stmt = conn.prepareStatement(
 				"UPDATE Vastausvaihtoehto SET oikein = ? WHERE vastausteksti = ? AND kysymys_id = ?");
-			stmt.setString(1, vastausvaihtoehto.isOikein() ? "t" : "f");
+			stmt.setBoolean(1, vastausvaihtoehto.isOikein() ? "t" : "f");
 			stmt.setString(2, vastausvaihtoehto.getVastaus());
 			stmt.setInt(3, vastausvaihtoehto.getKysymys_id());
 			stmt.executeUpdate();			

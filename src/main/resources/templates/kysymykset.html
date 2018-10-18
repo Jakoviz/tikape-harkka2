@@ -13,10 +13,10 @@
 				Kurssi: <span th:text="${kurssi.getNimi()}">kurssi</span>
 				<ul>
 					<li th:each="kysymys: ${kurssi.getKysymykset()}">
-						Aihe: <span th:text="${kysymys.aihe}">aihe</span>
+						Aihe: <span th:text="${kysymys.aihe}">aihe</span><br>
 						<a th:href="@{~/kysymykset/{id}(id=${kysymys.id})}">
 							<span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
-						</a><br>
+						</a><br><br>
 						<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
 							<input type="submit" value="Poista"/>
 						</form>
