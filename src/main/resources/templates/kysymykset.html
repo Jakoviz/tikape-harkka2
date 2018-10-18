@@ -10,10 +10,10 @@
         <h2>Kysymykset</h2>
 		<ul>
 			<li th:each="kurssi: ${kurssit}">
-				<h3 th:text="${kurssi.getNimi()}">kurssi</h3>
+				Kurssi: <span th:text="${kurssi.getNimi()}">kurssi</span>
 				<ul>
 					<li th:each="kysymys: ${kurssi.getKysymykset()}">
-						<h4 th:text="${kysymys.aihe}">aihe</h4>
+						Aihe: <span th:text="${kysymys.aihe}">aihe</span>
 						<a th:href="@{~/kysymykset/{id}(id=${kysymys.id})}">
 							<span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
 						</a><br>

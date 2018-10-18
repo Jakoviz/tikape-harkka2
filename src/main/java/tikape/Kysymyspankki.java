@@ -84,14 +84,14 @@ public class Kysymyspankki {
 
         Spark.post("/kysymykset/:id", (req, res) -> {
             String vastausteksti = req.queryParams("vastausteksti");
-	    String oikein = req.queryParams("oikein");
-	    String id = req.params(":id");
-	    Kysymys kysymys = kysymysDao.findOne(
-			new Kysymys(Integer.parseInt(id), null, null, null));
-	    vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
-			kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
-	    res.redirect("/kysymykset/" + id);
-	    return "";
+			String oikein = req.queryParams("oikein");
+			String id = req.params(":id");
+			Kysymys kysymys = kysymysDao.findOne(
+				new Kysymys(Integer.parseInt(id), null, null, null));
+			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
+				kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
+			res.redirect("/kysymykset/" + id);
+			return "";
         });
 
 		Spark.post("/kysymykset/:id/:id2/delete", (req, res) -> {

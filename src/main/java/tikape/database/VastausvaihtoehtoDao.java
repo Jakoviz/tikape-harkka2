@@ -68,14 +68,15 @@ public class VastausvaihtoehtoDao {
 			stmt = conn.prepareStatement(
 				"INSERT INTO Vastausvaihtoehto (vastausteksti, oikein, kysymys_id) VALUES (?, ?, ?)");
 			stmt.setString(1, vastausvaihtoehto.getVastaus());
-			stmt.setBoolean(2, vastausvaihtoehto.isOikein());
+			stmt.setString(2, vastausvaihtoehto.isOikein() ? "t" : "f");
 			stmt.setInt(3, vastausvaihtoehto.getKysymys_id());
 			stmt.executeUpdate();
 		} else {
 			stmt = conn.prepareStatement(
-				"UPDATE Vastausvaihtoehto SET oikein=? WHERE vastausteksti = ?");
-			stmt.setBoolean(1, vastausvaihtoehto.isOikein());
+				"UPDATE Vastausvaihtoehto SET oikein = ? WHERE vastausteksti = ? AND kysymys_id = ?");
+			stmt.setString(1, vastausvaihtoehto.isOikein() ? "t" : "f");
 			stmt.setString(2, vastausvaihtoehto.getVastaus());
+			stmt.setInt(3, vastausvaihtoehto.getKysymys_id());
 			stmt.executeUpdate();			
 		}	
 		stmt = conn.prepareStatement(
@@ -83,9 +84,6 @@ public class VastausvaihtoehtoDao {
 		stmt.setInt(1, vastausvaihtoehto.getKysymys_id());
 		stmt.setString(2, vastausvaihtoehto.getVastaus());
 		ResultSet kasiteltyRs = stmt.executeQuery();
-		if (!kasiteltyRs.next()) {
-			throw new Exception("Vastausvaihtoehdon saveOrUpdate:ssa virhe");	
-		}
 		return new Vastausvaihtoehto(kasiteltyRs.getInt("id"), 
 		    kasiteltyRs.getInt("kysymys_id"),
 		    kasiteltyRs.getString("vastausteksti"), 
