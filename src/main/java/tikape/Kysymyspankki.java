@@ -40,7 +40,7 @@ public class Kysymyspankki {
 			List<Kurssi> kaikkiKurssit = kurssiDao.findAll();
 			for (Kurssi kurssi : kaikkiKurssit) {
 				kurssi.setKysymykset(kysymysDao.findAll(kurssi.getId()));
-				if (kurssi.getKysymykset().size() == 0) kaikkiKurssit.remove(kurssi);
+				if (kurssi.getKysymykset().isEmpty()) kaikkiKurssit.remove(kurssi);
 			}
             map.put("kurssit", kaikkiKurssit);
             return new ModelAndView(map, "kysymykset");
