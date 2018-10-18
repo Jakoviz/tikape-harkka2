@@ -11,12 +11,12 @@
         <h1>Kysymykset</h1>
 		<ul>
 			<li th:each="kurssi: ${kurssit}">
-				<b><font size="6"> Kurssi:</font> <font size="6" th:text="${kurssi.getNimi()}">kurssi</font></b>
+				<b><font size="5"> Kurssi:</font> <font size="5" th:text="${kurssi.getNimi()}">kurssi</font></b>
 				<ul>
 					<li th:each="kysymys: ${kurssi.getKysymykset()}">
-						<font size="6">Aihe: </font> <font size="6" th:text="${kysymys.aihe}">aihe</font><br>
+						<font size="5">Aihe: </font> <font size="5" th:text="${kysymys.aihe}">aihe</font><br>
 						<a th:href="@{~/kysymykset/{id}(id=${kysymys.id})}">
-							<font size="5" th:text="${kysymys.kysymysteksti}">kysymysteksti</font>
+							<font size="4" th:text="${kysymys.kysymysteksti}">kysymysteksti</font>
 						</a><br><br>
 						<form method="POST" th:action="@{~/kysymykset/{id}/delete(id=${kysymys.id})}">
 							<input type="submit" value="Poista"/>

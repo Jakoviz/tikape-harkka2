@@ -12,19 +12,19 @@
 		  <table>
 			<tr>
 			  <td>
-				  <b><font size="6"> Kurssi:</font> <font size="6" th:text="${kysymys.getKurssi().getNimi()}"/></b>
+				  <b><font size="5"> Kurssi:</font> <font size="5" th:text="${kysymys.getKurssi().getNimi()}"/></b>
 			  </td>
 			</tr>
 			<tr>
 			  <td>
-				  <font size="6"> Aihepiiri:</font> <font size="6" th:text="${kysymys.getAihe()}"/>
+				  <font size="5"> Aihepiiri:</font> <font size="5" th:text="${kysymys.getAihe()}"/>
 			  </td>
 			</tr>
 		  </table>
 		<ul>
 			<li th:each="vastausvaihtoehto: ${kysymys.vastausvaihtoehdot}">	
-				<font size="5" th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto
-				<strong th:text="${vastausvaihtoehto.getOikein()}">Oikeellisuus</strong></font> 
+				<font size="4" th:text="${vastausvaihtoehto.getVastaus()}">Vastausvaihtoehto</font> 
+				<strong size="4" th:text="${vastausvaihtoehto.getOikein()}">Oikeellisuus</strong>
 				<form method="POST" th:action="@{~/kysymykset/{id}/{id2}/delete(id=${kysymys.id}, id2=${vastausvaihtoehto.getId()})}">
 					<input type="submit" value="Poista"/>
 				</form><br>
