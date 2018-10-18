@@ -84,6 +84,9 @@ public class VastausvaihtoehtoDao {
 		stmt.setInt(1, vastausvaihtoehto.getKysymys_id());
 		stmt.setString(2, vastausvaihtoehto.getVastaus());
 		ResultSet kasiteltyRs = stmt.executeQuery();
+		if (!kasiteltyRs.next()) {
+			return null;
+		}		
 		return new Vastausvaihtoehto(kasiteltyRs.getInt("id"), 
 		    kasiteltyRs.getInt("kysymys_id"),
 		    kasiteltyRs.getString("vastausteksti"), 
