@@ -24,26 +24,17 @@ public class Kysymyspankki {
             Spark.port(Integer.valueOf(System.getenv("PORT")));
         }
         
-        List<Kysymys> kysymykset = new ArrayList<>();
-
         Database database = new Database("org.sqlite.JDBC", "jdbc:sqlite:tasks.db");
 
         KysymysDao kysymysDao = new KysymysDao(database);
 	VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
 	KurssiDao kurssiDao = new KurssiDao(database);
 		
-        Spark.get("/kysymykset", (req, res) -> {
+        Spark.get("/kysymykset/", (req, res) -> {
             HashMap map = new HashMap<>();
             map.put("kysymykset", kysymysDao.findAll());
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
-
-//        Spark.get("/kysymykset/:kysymysId", (Request req, Response res) -> {
-//            HashMap map = new HashMap<>();
-//			int kysymysId = Integer.parseInt(req.params(":kysymysId"));
-//            map.put("kysymys", kysymysDao.findOne(new Kysymys(kysymysId, null, null, null)));
-//            return new ModelAndView(map, "kysymys");
-//        }, new ThymeleafTemplateEngine());
 
         Spark.get("/kysymykset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
