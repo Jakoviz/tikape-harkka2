@@ -56,7 +56,7 @@ public class Kysymyspankki {
             String kurssinimi = req.queryParams("kurssi");
 			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
 			if (kurssi == null) {
-				kurssi = kurssiDao.saveOrUpdate(kurssi);
+				kurssi = kurssiDao.saveOrUpdate(new Kurssi(kurssinimi, -1));
 			}
 			kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe,
 				kurssiDao.findOne(kurssi)));
