@@ -34,6 +34,11 @@ public class Kysymyspankki {
 	    res.redirect("/kysymykset");
 	    return null;
         }, new ThymeleafTemplateEngine());
+
+	Spark.get("/kysymykset/", (req, res) -> {
+	    res.redirect("/kysymykset");
+	    return null;
+        }, new ThymeleafTemplateEngine());
 	
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
