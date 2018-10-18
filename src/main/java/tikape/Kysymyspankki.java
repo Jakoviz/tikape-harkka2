@@ -85,7 +85,7 @@ public class Kysymyspankki {
         Spark.post("/kysymykset/:id", (req, res) -> {
             String vastausteksti = req.queryParams("vastausteksti");
 			boolean oikein;
-			if (req.queryParams("oikein").equals("on")) {
+			if (req.queryParams("oikein") != null) {
 				oikein = true; 
 			} else {
 				oikein = false;
