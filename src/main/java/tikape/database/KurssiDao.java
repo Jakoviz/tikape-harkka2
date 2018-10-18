@@ -29,8 +29,8 @@ public class KurssiDao {
 		stmt.setString(1, kurssi.getNimi());
 		ResultSet kysymysRs = stmt.executeQuery();
 		if (!kysymysRs.next()) {
-			Kurssi saveOrUpdate = saveOrUpdate(kurssi);
-			return new Kurssi(saveOrUpdate.getNimi(), saveOrUpdate.getId());
+			return null;
+
 		}
 		return new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("id"));
 	}
@@ -40,24 +40,24 @@ public class KurssiDao {
     }
     public Kurssi saveOrUpdate(Kurssi kurssi) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement(
-				"SELECT * FROM Kurssi WHERE nimi = ?");
-			stmt.setString(1, kurssi.getNimi());
-			ResultSet olemassaolevaRs = stmt.executeQuery();
-			if (!olemassaolevaRs.next()) {
-				stmt = conn.prepareStatement(
-					"INSERT INTO Kurssi (nimi) VALUES (?)");
-				stmt.setString(1, kurssi.getNimi());
-				stmt.executeUpdate();
-			}
+		PreparedStatement stmt = conn.prepareStatement(
+			"SELECT * FROM Kurssi WHERE nimi = ?");
+		stmt.setString(1, kurssi.getNimi());
+		ResultSet olemassaolevaRs = stmt.executeQuery();
+		if (!olemassaolevaRs.next()) {
 			stmt = conn.prepareStatement(
-				"SELECT * FROM Kurssi WHERE nimi = ?");
+				"INSERT INTO Kurssi (nimi) VALUES (?)");
 			stmt.setString(1, kurssi.getNimi());
-			ResultSet kurssiRs = stmt.executeQuery();
-			if (!kurssiRs.next()) {
-				throw new Exception("Kurssin saveOrUpdate:ssa lisays ei onnistunut");
-			}
-			return new Kurssi(kurssiRs.getString("nimi"), kurssiRs.getInt("id"));
+			stmt.executeUpdate();
+		}
+		stmt = conn.prepareStatement(
+			"SELECT * FROM Kurssi WHERE nimi = ?");
+		stmt.setString(1, kurssi.getNimi());
+		ResultSet kurssiRs = stmt.executeQuery();
+		if (!kurssiRs.next()) {
+			throw new Exception("Kurssin saveOrUpdate:ssa lisays ei onnistunut");
+		}
+		return new Kurssi(kurssiRs.getString("nimi"), kurssiRs.getInt("id"));
         }
     }
     public void delete(Integer key) throws SQLException, Exception {

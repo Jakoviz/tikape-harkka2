@@ -23,20 +23,22 @@ public class KysymysDao {
     }
     public Kysymys findOne(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
-		PreparedStatement stmt = conn.prepareStatement(
-			"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
-		stmt.setInt(1, kysymys.getId());
-		ResultSet kysymysRs = stmt.executeQuery();
-		if (!kysymysRs.next()) {
-			throw new Exception("Kysymyksen findOne:ssa virhe");	
+			PreparedStatement stmt = conn.prepareStatement(
+				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
+			stmt.setInt(1, kysymys.getId());
+			ResultSet kysymysRs = stmt.executeQuery();
+			if (!kysymysRs.next()) {
+				throw new Exception("Kysymyksen findOne:ssa virhe");	
+			}
+			Kysymys kysymys1 = new Kysymys(kysymysRs.getInt("id"), kysymysRs.getString("kysymysteksti"), 
+				kysymysRs.getString("aihe"),
+				new Kurssi(
+					kysymysRs.getString("nimi"),
+					kysymysRs.getInt("kurssi_id"))
+			);
+			kysymys1.setVastausvaihtoehdot(kysymys.getVastausvaihtoehdot());
+			return kysymys1;
 		}
-		return new Kysymys(kysymysRs.getInt("id"), 
-			kysymysRs.getString("kysymysteksti"), 
-			kysymysRs.getString("aihe"), 
-			new Kurssi(kysymysRs.getString("nimi"), 
-			    kysymysRs.getInt("kurssi_id")),
-			kysymys.getVastausvaihtoehdot());
-	}
     }
     public List<Kysymys> findAll() throws SQLException, Exception {
         List<Kysymys> kysymykset = new ArrayList<>();
@@ -51,8 +53,9 @@ public class KysymysDao {
 					kysymyksetRs.getString("kysymysteksti"), 
 					kysymyksetRs.getString("aihe"), 
 					new Kurssi(kysymyksetRs.getString("kurssinimi"), 
-					kysymyksetRs.getInt("kurssi_id")),
-					null));
+						kysymyksetRs.getInt("kurssi_id")
+					)
+				));
             }
         } 
         return kysymykset;
@@ -79,13 +82,13 @@ public class KysymysDao {
 			stmt.setString(2, kysymys.getKysymysteksti());
 			stmt.setInt(3, kysymys.getKurssi().getId());
 			ResultSet kurssiRs = stmt.executeQuery();
+
 			if (!kurssiRs.next()) {
 				throw new Exception("Kysymyksen saveOrUpdate:ssa lisays ei onnistunut");
-			}
+			}	    
+			
 			return new Kysymys(kurssiRs.getInt("id"), kurssiRs.getString("kysymysteksti"), 
-				kurssiRs.getString("aihe"), new Kurssi(kysymys.getKurssi().getNimi(), 
-				kysymys.getKurssi().getId()),
-				null);
+				kurssiRs.getString("aihe"), kysymys.getKurssi());
         }
     }
 

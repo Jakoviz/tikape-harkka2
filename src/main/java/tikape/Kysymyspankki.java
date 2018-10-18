@@ -35,23 +35,32 @@ public class Kysymyspankki {
 	    return null;
         }, new ThymeleafTemplateEngine());
 
-	Spark.get("/kysymykset/", (req, res) -> {
-	    res.redirect("/kysymykset");
-	    return null;
-        }, new ThymeleafTemplateEngine());
-	
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("kysymykset", kysymysDao.findAll());
+            map.put("kurssit", kurssiDao.findAll());
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
+        Spark.post("/kysymykset", (req, res) -> {
+            String kysymysteksti = req.queryParams("kysymysteksti");
+            String aihe = req.queryParams("aihe");
+            String kurssinimi = req.queryParams("kurssi");
+			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
+			if (kurssi == null) {
+				kurssi = kurssiDao.saveOrUpdate(kurssi);
+			}
+			kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe,
+				kurssiDao.findOne(kurssi)));
+			res.redirect("/kysymykset");
+			return "";
+        });
+		
         Spark.get("/kysymykset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-	    String id = req.params(":id");
-            map.put("kysymys", kysymysDao.findOne(
-		new Kysymys(Integer.parseInt(id), null, null, null, 
-		    vastausvaihtoehtoDao.findAll(Integer.parseInt(id)))));
+			String id = req.params(":id");
+			Kysymys kysymys = new Kysymys(Integer.parseInt(id), null, null, null); 
+			kysymys.setVastausvaihtoehdot(vastausvaihtoehtoDao.findAll(Integer.parseInt(id)));
+			map.put("kysymys", kysymys); 
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
@@ -60,7 +69,7 @@ public class Kysymyspankki {
 	    String oikein = req.queryParams("oikein");
 	    String id = req.params(":id");
 	    Kysymys kysymys = kysymysDao.findOne(
-		new Kysymys(Integer.parseInt(id), null, null, null, null));
+		new Kysymys(Integer.parseInt(id), null, null, null));
 	    vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
 		kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
 	    res.redirect("/kysymykset/" + id);
@@ -72,16 +81,6 @@ public class Kysymyspankki {
 	    String vastausvaihtoehtoId = req.params(":id2");
 	    vastausvaihtoehtoDao.delete(Integer.parseInt(vastausvaihtoehtoId));
 	    res.redirect("/kysymykset/" + kysymysId);
-	    return "";
-        });
-
-        Spark.post("/kysymykset", (req, res) -> {
-            String kysymysteksti = req.queryParams("kysymysteksti");
-            String aihe = req.queryParams("aihe");
-            String kurssinimi = req.queryParams("kurssi");
-	    Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
-	    kysymysDao.saveOrUpdate(new Kysymys(-1, kysymysteksti, aihe, kurssi, null));
-	    res.redirect("/kysymykset");
 	    return "";
         });
 
