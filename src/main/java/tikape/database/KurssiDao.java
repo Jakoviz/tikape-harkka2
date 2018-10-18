@@ -77,6 +77,9 @@ public class KurssiDao {
 				stmt.setString(1, kurssi.getNimi());
 				kurssiRs = stmt.executeQuery();
 			}
+			if(!kurssiRs.next()) {
+				return null;
+			}
 			return new Kurssi(kurssiRs.getString("nimi"), kurssiRs.getInt("id"));
         }
     }
