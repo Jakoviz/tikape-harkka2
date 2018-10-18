@@ -30,14 +30,24 @@ public class KurssiDao {
 		ResultSet kysymysRs = stmt.executeQuery();
 		if (!kysymysRs.next()) {
 			return null;
-
 		}
 		return new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("id"));
 	}
     }
-    public List<Kysymys> findAll() throws SQLException, Exception {
-	    throw new NotImplementedException();
+    public List<Kurssi> findAll() throws SQLException, Exception {
+	List<Kurssi> kurssit = new ArrayList<>();
+        try (Connection conn = database.getConnection()) {
+		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kurssi");
+		ResultSet kurssitRs = stmt.executeQuery();
+            while (kurssitRs.next()) {
+                kurssit.add(new Kurssi(
+			kurssitRs.getString("nimi"), 
+			kurssitRs.getInt("id")));
+            }
+        } 
+        return kurssit;
     }
+    
     public Kurssi saveOrUpdate(Kurssi kurssi) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 		PreparedStatement stmt = conn.prepareStatement(
