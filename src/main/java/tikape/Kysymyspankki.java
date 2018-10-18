@@ -71,6 +71,7 @@ public class Kysymyspankki {
             String kurssinimi = req.queryParams("kurssi");
 			if (kysymysteksti.isEmpty() || aihe.isEmpty() || kurssinimi.isEmpty()) {
 				res.redirect("/kysymykset/eikaikkiakenttia");
+				return "";
 			}
 			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
 			if (kurssi == null) {
@@ -123,6 +124,7 @@ public class Kysymyspankki {
 			String id = req.params(":id");
 			if (vastausteksti.isEmpty()) {
 				res.redirect("/kysymykset/" + id + "/eivastaustekstia");
+				return "";
 			}
 			Kysymys kysymys = kysymysDao.findOne(
 				new Kysymys(Integer.parseInt(id), null, null, null));
