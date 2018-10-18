@@ -27,8 +27,8 @@ public class Kysymyspankki {
         Database database = new Database("org.sqlite.JDBC", "jdbc:sqlite:tasks.db");
 
         KysymysDao kysymysDao = new KysymysDao(database);
-	VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
-	KurssiDao kurssiDao = new KurssiDao(database);
+		VastausvaihtoehtoDao vastausvaihtoehtoDao = new VastausvaihtoehtoDao(database);
+		KurssiDao kurssiDao = new KurssiDao(database);
 
         Spark.get("/", (req, res) -> {
 	    res.redirect("/kysymykset");
@@ -40,6 +40,7 @@ public class Kysymyspankki {
 			List<Kurssi> kaikkiKurssit = kurssiDao.findAll();
 			for (Kurssi kurssi : kaikkiKurssit) {
 				kurssi.setKysymykset(kysymysDao.findAll(kurssi.getId()));
+				if (kurssi.getKysymykset().size() == 0) kaikkiKurssit.remove(kurssi);
 			}
             map.put("kurssit", kaikkiKurssit);
             return new ModelAndView(map, "kysymykset");
@@ -59,11 +60,18 @@ public class Kysymyspankki {
 			return "";
         });
 		
+		Spark.post("/kysymykset/:id/delete", (req, res) -> {
+			String id = req.params(":id");
+			kysymysDao.delete(Integer.parseInt(id));
+			res.redirect("/kysymykset");
+			return "";
+		});
+
         Spark.get("/kysymykset/:id", (req, res) -> {
             HashMap map = new HashMap<>();
-			String id = req.params(":id");
-			Kysymys kysymys = new Kysymys(Integer.parseInt(id), null, null, null); 
-			kysymys.setVastausvaihtoehdot(vastausvaihtoehtoDao.findAll(Integer.parseInt(id)));
+			int id = Integer.parseInt(req.params(":id"));
+			Kysymys kysymys = new Kysymys(id, null, null, kurssiDao.findOne(new Kysymys(id, null, null, null))); 
+			kysymys.setVastausvaihtoehdot(vastausvaihtoehtoDao.findAll(id));
 			map.put("kysymys", kysymys); 
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
@@ -80,20 +88,14 @@ public class Kysymyspankki {
 	    return "";
         });
 
-	Spark.post("/kysymykset/:id/:id2/delete", (req, res) -> {
-	    String kysymysId = req.params(":id");
-	    String vastausvaihtoehtoId = req.params(":id2");
-	    vastausvaihtoehtoDao.delete(Integer.parseInt(vastausvaihtoehtoId));
-	    res.redirect("/kysymykset/" + kysymysId);
-	    return "";
-        });
+		Spark.post("/kysymykset/:id/:id2/delete", (req, res) -> {
+			String kysymysId = req.params(":id");
+			String vastausvaihtoehtoId = req.params(":id2");
+			vastausvaihtoehtoDao.delete(Integer.parseInt(vastausvaihtoehtoId));
+			res.redirect("/kysymykset/" + kysymysId);
+			return "";
+		});
 
-        Spark.post("/kysymykset/:id/delete", (req, res) -> {
-	    String id = req.params(":id");
-	    kysymysDao.delete(Integer.parseInt(id));
-	    res.redirect("/kysymykset");
-	    return "";
-        });
     }
 
 }

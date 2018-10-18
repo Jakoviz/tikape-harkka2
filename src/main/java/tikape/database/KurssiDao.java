@@ -32,8 +32,22 @@ public class KurssiDao {
 			return null;
 		}
 		return new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("id"));
-	}
+		}
     }
+	
+	public Kurssi findOne(Kysymys kysymys) throws SQLException, Exception {
+        try (Connection conn = database.getConnection()) {
+			PreparedStatement stmt = conn.prepareStatement(
+				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE b.id = ?");
+			stmt.setInt(1, kysymys.getId());
+			ResultSet kysymysRs = stmt.executeQuery();
+			if (!kysymysRs.next()) {
+				return null;
+			}
+			return new Kurssi(kysymysRs.getString("nimi"), kysymysRs.getInt("kurssi_id"));
+		}
+    }
+	
     public List<Kurssi> findAll() throws SQLException, Exception {
 	List<Kurssi> kurssit = new ArrayList<>();
         try (Connection conn = database.getConnection()) {

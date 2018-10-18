@@ -41,8 +41,8 @@ public class VastausvaihtoehtoDao {
     public List<Vastausvaihtoehto> findAll(int id) throws SQLException, Exception {
 		List<Vastausvaihtoehto> vastausvaihtoehdot = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM "
-				+ "Vastausvaihtoehto WHERE kysymys_id = ?");
+			PreparedStatement stmt = conn.prepareStatement(
+			    "SELECT * FROM Vastausvaihtoehto WHERE kysymys_id = ?");
 			stmt.setInt(1, id);
 			ResultSet vastausvaihtoehdotRs = stmt.executeQuery();
             while (vastausvaihtoehdotRs.next()) {
