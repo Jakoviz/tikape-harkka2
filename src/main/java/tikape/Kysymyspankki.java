@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import spark.ModelAndView;
 import spark.Request;
@@ -38,11 +39,14 @@ public class Kysymyspankki {
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
 			List<Kurssi> kaikkiKurssit = kurssiDao.findAll();
+			List<Kurssi> naytettavatKurssit = new LinkedList<Kurssi>();
 			for (Kurssi kurssi : kaikkiKurssit) {
 				kurssi.setKysymykset(kysymysDao.findAll(kurssi.getId()));
-				if (kurssi.getKysymykset().isEmpty()) kaikkiKurssit.remove(kurssi);
+				if (!kurssi.getKysymykset().isEmpty()) {
+					naytettavatKurssit.add(kurssi);
+				}
 			}
-            map.put("kurssit", kaikkiKurssit);
+            map.put("kurssit", naytettavatKurssit);
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
