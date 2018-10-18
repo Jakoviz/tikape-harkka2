@@ -85,6 +85,12 @@ public class Kysymyspankki {
 		Spark.get("/kysymykset/:id/eivastaustekstia", (req, res) -> {
             HashMap map = new HashMap<>();
 			map.put("error", "Ei annettu vastaustekstiä"); 
+			int id = Integer.parseInt(req.params(":id"));
+			Kysymys kysymys = kysymysDao.findOne(new Kysymys(id, null, null, null));
+			kysymys.setVastausvaihtoehdot(vastausvaihtoehtoDao.findAll(id));
+			Kurssi tamanKysymyksenKurssi = kurssiDao.findOne(kysymys);
+			kysymys.setKurssi(tamanKysymyksenKurssi);
+			map.put("kysymys", kysymys); 
             return new ModelAndView(map, "kysymys");
         }, new ThymeleafTemplateEngine());
 
