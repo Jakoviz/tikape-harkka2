@@ -7,13 +7,14 @@
     </head>
 
     <body>
+	<span style="color:tomato;" th:text="${error}"/> 
         <h1>Kysymykset</h1>
 		<ul>
 			<li th:each="kurssi: ${kurssit}">
-				<font size="14"> Kurssi:</font> <font size="18" th:text="${kurssi.getNimi()}">kurssi</font>
+				<font size="10"> Kurssi:</font> <font size="18" th:text="${kurssi.getNimi()}">kurssi</font>
 				<ul>
 					<li th:each="kysymys: ${kurssi.getKysymykset()}">
-						<font size="12">Aihe: </font> <font size="12" th:text="${kysymys.aihe}">aihe</font><br>
+						<font size="8">Aihe: </font> <font size="12" th:text="${kysymys.aihe}">aihe</font><br>
 						<a th:href="@{~/kysymykset/{id}(id=${kysymys.id})}">
 							<span th:text="${kysymys.kysymysteksti}">kysymysteksti</span>
 						</a><br><br>

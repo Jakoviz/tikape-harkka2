@@ -50,10 +50,28 @@ public class Kysymyspankki {
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
+        Spark.get("/kysymykset/eikaikkiakenttia", (req, res) -> {
+            HashMap map = new HashMap<>();
+			map.put("error", "Virhe: Ei annettu kaikkia kenttiä."); 			
+			List<Kurssi> kaikkiKurssit = kurssiDao.findAll();
+			List<Kurssi> naytettavatKurssit = new LinkedList<Kurssi>();
+			for (Kurssi kurssi : kaikkiKurssit) {
+				kurssi.setKysymykset(kysymysDao.findAll(kurssi.getId()));
+				if (!kurssi.getKysymykset().isEmpty()) {
+					naytettavatKurssit.add(kurssi);
+				}
+			}
+            map.put("kurssit", naytettavatKurssit);
+            return new ModelAndView(map, "kysymykset");
+        }, new ThymeleafTemplateEngine());
+		
         Spark.post("/kysymykset", (req, res) -> {
             String kysymysteksti = req.queryParams("kysymysteksti");
             String aihe = req.queryParams("aihe");
             String kurssinimi = req.queryParams("kurssi");
+			if (kysymysteksti.isEmpty() || aihe.isEmpty() || kurssinimi.isEmpty()) {
+				res.redirect("/kysymykset/eikaikkiakenttia");
+			}
 			Kurssi kurssi = kurssiDao.findOne(new Kurssi(kurssinimi, -1));
 			if (kurssi == null) {
 				kurssi = kurssiDao.saveOrUpdate(new Kurssi(kurssinimi, -1));
@@ -84,7 +102,7 @@ public class Kysymyspankki {
 
 		Spark.get("/kysymykset/:id/eivastaustekstia", (req, res) -> {
             HashMap map = new HashMap<>();
-			map.put("error", "Ei annettu vastaustekstiä"); 
+			map.put("error", "Virhe: Ei annettu vastaustekstiä."); 
 			int id = Integer.parseInt(req.params(":id"));
 			Kysymys kysymys = kysymysDao.findOne(new Kysymys(id, null, null, null));
 			kysymys.setVastausvaihtoehdot(vastausvaihtoehtoDao.findAll(id));
