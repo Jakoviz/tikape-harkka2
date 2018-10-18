@@ -49,4 +49,8 @@ public class Vastausvaihtoehto {
     public void setVastaus(String vastaus) {
 	this.vastaus = vastaus;
     }
+
+    public String getOikein() {
+	return oikein ? "Oikein." : "Väärin.";
+    }
 }

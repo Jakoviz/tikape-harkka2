@@ -11,7 +11,7 @@
         <h1>Kysymykset</h1>
 		<ul>
 			<li th:each="kurssi: ${kurssit}">
-				<font size="7"> Kurssi:</font> <font size="7" th:text="${kurssi.getNimi()}">kurssi</font>
+				<b><font size="6"> Kurssi:</font> <font size="6" th:text="${kurssi.getNimi()}">kurssi</font></b>
 				<ul>
 					<li th:each="kysymys: ${kurssi.getKysymykset()}">
 						<font size="6">Aihe: </font> <font size="6" th:text="${kysymys.aihe}">aihe</font><br>
