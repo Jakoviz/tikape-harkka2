@@ -37,12 +37,12 @@ public class KurssiDao {
     public List<Kurssi> findAll() throws SQLException, Exception {
 	List<Kurssi> kurssit = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kurssi");
-		ResultSet kurssitRs = stmt.executeQuery();
+			PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Kurssi");
+			ResultSet kurssitRs = stmt.executeQuery();
             while (kurssitRs.next()) {
                 kurssit.add(new Kurssi(
-			kurssitRs.getString("nimi"), 
-			kurssitRs.getInt("id")));
+				kurssitRs.getString("nimi"), 
+				kurssitRs.getInt("id")));
             }
         } 
         return kurssit;
