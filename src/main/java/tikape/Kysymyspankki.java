@@ -85,10 +85,10 @@ public class Kysymyspankki {
         Spark.post("/kysymykset/:id", (req, res) -> {
             String vastausteksti = req.queryParams("vastausteksti");
 			boolean oikein;
-			if (req.queryParams("oikein") == "null") {
-				oikein = false; 
+			if (req.queryParams("oikein").equals("on")) {
+				oikein = true; 
 			} else {
-				oikein = true;
+				oikein = false;
 			}
 			String id = req.params(":id");
 			Kysymys kysymys = kysymysDao.findOne(
