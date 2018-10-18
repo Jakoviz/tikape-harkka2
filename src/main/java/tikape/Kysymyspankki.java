@@ -37,7 +37,11 @@ public class Kysymyspankki {
 
         Spark.get("/kysymykset", (req, res) -> {
             HashMap map = new HashMap<>();
-            map.put("kurssit", kurssiDao.findAll());
+			List<Kurssi> kaikkiKurssit = kurssiDao.findAll();
+			for (Kurssi kurssi : kaikkiKurssit) {
+				kurssi.setKysymykset(kysymysDao.findAll(kurssi.getId()));
+			}
+            map.put("kurssit", kaikkiKurssit);
             return new ModelAndView(map, "kysymykset");
         }, new ThymeleafTemplateEngine());
 
@@ -69,9 +73,9 @@ public class Kysymyspankki {
 	    String oikein = req.queryParams("oikein");
 	    String id = req.params(":id");
 	    Kysymys kysymys = kysymysDao.findOne(
-		new Kysymys(Integer.parseInt(id), null, null, null));
+			new Kysymys(Integer.parseInt(id), null, null, null));
 	    vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
-		kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
+			kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
 	    res.redirect("/kysymykset/" + id);
 	    return "";
         });

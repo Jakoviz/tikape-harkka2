@@ -47,7 +47,6 @@ public class KurssiDao {
         } 
         return kurssit;
     }
-    
     public Kurssi saveOrUpdate(Kurssi kurssi) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 		PreparedStatement stmt = conn.prepareStatement(

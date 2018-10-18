@@ -23,8 +23,8 @@ public class KysymysDao {
     }
     public Kysymys findOne(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement(
-				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
+				PreparedStatement stmt = conn.prepareStatement(
+					"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
 			stmt.setInt(1, kysymys.getId());
 			ResultSet kysymysRs = stmt.executeQuery();
 			if (!kysymysRs.next()) {
@@ -60,6 +60,29 @@ public class KysymysDao {
         } 
         return kysymykset;
     }
+
+    public List<Kysymys> findAll(int id) throws SQLException, Exception {
+        List<Kysymys> kysymykset = new ArrayList<>();
+        try (Connection conn = database.getConnection()) {
+			PreparedStatement stmt = conn.prepareStatement(
+				"SELECT a.id, a.kysymysteksti, a.aihe, b.nimi as kurssinimi, a.kurssi_id FROM Kysymys as a"
+					+ " JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.kurssi_id = ?");
+			stmt.setInt(1, id);			
+			ResultSet kysymyksetRs = stmt.executeQuery();
+            while (kysymyksetRs.next()) {
+                kysymykset.add(new Kysymys(
+					kysymyksetRs.getInt("id"), 
+					kysymyksetRs.getString("kysymysteksti"), 
+					kysymyksetRs.getString("aihe"), 
+					new Kurssi(kysymyksetRs.getString("kurssinimi"), 
+						kysymyksetRs.getInt("kurssi_id")
+					)
+				));
+            }
+        } 
+        return kysymykset;
+	}
+
     public Kysymys saveOrUpdate(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
