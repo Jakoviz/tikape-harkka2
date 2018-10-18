@@ -38,15 +38,16 @@ public class VastausvaihtoehtoDao {
 		    vastausvaihtoehtoRs.getBoolean("oikein")); 
 	}
     }
+    
     public List<Vastausvaihtoehto> findAll(int id) throws SQLException, Exception {
-		List<Vastausvaihtoehto> vastausvaihtoehdot = new ArrayList<>();
+	List<Vastausvaihtoehto> vastausvaihtoehdot = new ArrayList<>();
         try (Connection conn = database.getConnection()) {
-			PreparedStatement stmt = conn.prepareStatement(
-			    "SELECT * FROM Vastausvaihtoehto WHERE kysymys_id = ?");
-			stmt.setInt(1, id);
-			ResultSet vastausvaihtoehdotRs = stmt.executeQuery();
-            while (vastausvaihtoehdotRs.next()) {
-                vastausvaihtoehdot.add(new Vastausvaihtoehto(
+		PreparedStatement stmt = conn.prepareStatement(
+		    "SELECT * FROM Vastausvaihtoehto WHERE kysymys_id = ?");
+		stmt.setInt(1, id);
+		ResultSet vastausvaihtoehdotRs = stmt.executeQuery();
+	    	while (vastausvaihtoehdotRs.next()) {
+                	vastausvaihtoehdot.add(new Vastausvaihtoehto(
 					vastausvaihtoehdotRs.getInt("id"), 
 					vastausvaihtoehdotRs.getInt("kysymys_id"), 
 					vastausvaihtoehdotRs.getString("vastausteksti"), 
@@ -55,6 +56,7 @@ public class VastausvaihtoehtoDao {
         } 
         return vastausvaihtoehdot;
     }
+    
     public Vastausvaihtoehto saveOrUpdate(Vastausvaihtoehto vastausvaihtoehto) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 		PreparedStatement stmt = conn.prepareStatement(

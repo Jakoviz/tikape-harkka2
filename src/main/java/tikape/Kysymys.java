@@ -9,6 +9,10 @@ public class Kysymys {
     private Kurssi kurssi;
     private List<Vastausvaihtoehto> vastausvaihtoehdot;
 
+	Kysymys(int parseInt, Object object, Object object0, Object object1, List<Vastausvaihtoehto> findAll) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 	public void setVastausvaihtoehdot(List<Vastausvaihtoehto> vastausvaihtoehdot) {
 		this.vastausvaihtoehdot = vastausvaihtoehdot;
 	}
@@ -30,7 +34,7 @@ public class Kysymys {
 	}
 
     public void setId(int id) {
-	this.id = id;
+		this.id = id;
     }
 
     public int getId() {
@@ -38,11 +42,11 @@ public class Kysymys {
     }
     
     public void setKurssi(Kurssi kurssi) {
-	this.kurssi = kurssi;
+		this.kurssi = kurssi;
     }
 
     public Kurssi getKurssi() {
-	return kurssi;
+		return kurssi;
     }
 
     public void setKysymysteksti(String kysymysteksti) {

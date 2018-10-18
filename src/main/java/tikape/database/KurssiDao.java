@@ -38,7 +38,7 @@ public class KurssiDao {
 	public Kurssi findOne(Kysymys kysymys) throws SQLException, Exception {
         try (Connection conn = database.getConnection()) {
 			PreparedStatement stmt = conn.prepareStatement(
-				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE b.id = ?");
+				"Select * FROM Kysymys as a JOIN Kurssi as b on a.kurssi_id = b.id WHERE a.id = ?");
 			stmt.setInt(1, kysymys.getId());
 			ResultSet kysymysRs = stmt.executeQuery();
 			if (!kysymysRs.next()) {
