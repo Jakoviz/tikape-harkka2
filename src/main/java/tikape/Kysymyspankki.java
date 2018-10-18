@@ -90,7 +90,7 @@ public class Kysymyspankki {
 				new Kysymys(Integer.parseInt(id), null, null, null));
 			vastausvaihtoehtoDao.saveOrUpdate(new Vastausvaihtoehto(-1, 
 				kysymys.getId(), vastausteksti, Boolean.parseBoolean(oikein)));
-			res.redirect("/kysymykset/" + id);
+			res.redirect("/kysymykset/" + oikein + "'" + Boolean.parseBoolean(oikein));
 			return "";
         });
 
