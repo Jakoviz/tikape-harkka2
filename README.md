@@ -6,6 +6,7 @@ kysymystä luotaessa luodaan kurssi, jonka alle kysymys kuuluu, sekä "tägätä
 Sovelluksen kysymykset listaava pääsivu sijaitsee web-palvelimella polulla "/kysymykset", jonne myös ohjataan polusta "/".
 
 Tässä sovelluksen käyttämät tietokantataulut:
+
                                      Table "public.kysymys"
     Column     |       Type        | Collation | Nullable |               Default
 ---------------+-------------------+-----------+----------+-------------------------------------
